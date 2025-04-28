@@ -1,8 +1,8 @@
 baseURL = "https://blog.softwarestable.com/"
 languageCode = "en-us"
 title = "SoftwareStable Blog" # Your Blog Title
-theme = ""
 paginate = 5 # Number of posts per page on list pages
+theme = ""
 
 # Parameters used in templates
 [params]
