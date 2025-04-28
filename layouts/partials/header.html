@@ -2,7 +2,7 @@
 {{ if or .IsHome .IsSection .IsNode }}
 <header> {{/* Matches header:not(.auth-header) */}}
     <div class="container">
-        <h1><a href="{{ "/" | relURL }}">{{ .Site.Title }}</a></h1>
+        <h1>{{ .Site.Title }}</h1>
         {{ with .Site.Params.description }}
             <h2>{{ . }}</h2> {{/* Uses header:not(.auth-header) .container h2 style */}}
         {{ end }}

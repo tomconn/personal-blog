@@ -1,8 +1,8 @@
 baseURL = "https://blog.softwarestable.com/"
 languageCode = "en-us"
 title = "SoftwareStable Blog" # Your Blog Title
+#theme = "" # Ensure this is empty or commented out
 paginate = 5 # Number of posts per page on list pages
-theme = ""
 
 # Parameters used in templates
 [params]
@@ -52,9 +52,9 @@ theme = ""
     [markup.goldmark.renderer]
       hardWraps = false
       # Allow raw HTML in markdown content (e.g., for iframe embeds)
-      unsafe = true
+      unsafe = true # <--- This is the critical key within the renderer table
       xhtml = false
 
 # Enable calculation of Reading Time for posts
-enableGitInfo = false # Set to true if your repo is public & you want lastmod based on Git
+enableGitInfo = false
 hasCJKLanguage = false
