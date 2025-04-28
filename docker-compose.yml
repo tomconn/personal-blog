@@ -1,0 +1,13 @@
+services:
+  hugo:
+    image: klakegg/hugo:0.111.3-ext-ubuntu-onbuild
+    command: server -D --bind=0.0.0.0 --baseURL=http://localhost:1313/ --appendPort=false --noHTTPCache
+    volumes:
+      - .:/src
+    ports:
+      - "1313:1313"
+    user: "${UID:-1000}:${GID:-1000}" # Safer default for Linux/macOS - may need adjustment
+    working_dir: /src
+    # Optional: environment variables if needed by Hugo/theme
+    # environment:
+    #   - HUGO_ENV=development

@@ -1,0 +1,7 @@
+<header>
+    <h1><a href="{{ "/" | relURL }}">{{ .Site.Title }}</a></h1>
+    {{ with .Site.Params.description }}
+        <p class="subtitle">{{ . }}</p>
+    {{ end }}
+    {{/* Add navigation links here if desired */}}
+</header>

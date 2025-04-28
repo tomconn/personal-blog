@@ -1,0 +1,457 @@
+/* --- Base Styles & Variables --- */
+:root {
+    --primary-bg: #0a0f1a; /* Deep space blue/black */
+    --secondary-bg: #1c2a40; /* Slightly lighter blue */
+    --accent-orange: #ff7f00; /* NASA orange */
+    --accent-blue: #0b3d91;   /* NASA blue */
+    --text-light: #e0e0e0;    /* Off-white text */
+    --text-medium: #a0a0a0;  /* Lighter gray */
+    --card-bg: rgba(28, 42, 64, 0.8); /* Semi-transparent card background */
+    --border-color: rgba(11, 61, 145, 0.5); /* Subtle blue border */
+    --success-bg: rgba(40, 167, 69, 0.8); /* Greenish background for success */
+    --error-bg: rgba(220, 53, 69, 0.8);   /* Reddish background for error */
+    --error-text: #f8d7da; /* Light red text for errors */
+    --success-text: #d4edda; /* Light green text for success */
+
+    --font-heading: 'Orbitron', sans-serif;
+    --font-body: 'Montserrat', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--primary-bg);
+    color: var(--text-light);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    position: relative; /* Needed for pseudo-element backgrounds */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Starfield Backgrounds --- */
+.stars-bg, .twinkling-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: -2; /* Behind content */
+}
+
+.stars-bg {
+    background: #000 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAxMC8xMC8xNiskQ40AAAAddEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE2LTEwLTEwVDE3OjI3OjM5KzAwOjAwWxy4RAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNi0xMC0xMFQxNzoyNzozOSswMDowMBfRdgcAAABQSURBVFjD7dQxCgAgEATBCu3/v6yBLCExFOzcpLvoaakmeM9ckIIQQgghhBBCCCEkH1o9W26W7+7g5N7+QEEIIYQQQgghhBBSXHwBAJ2HYoAh47UOAAAAAElFTkSuQmCC) repeat top center;
+    z-index: -2;
+}
+
+.twinkling-bg {
+    background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAxMC8xMC8xNiskQ40AAAAddEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE2LTEwLTEwVDE3OjI3OjM5KzAwOjAwWxy4RAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNi0xMC0xMFQxNzoyNzozOSswMDowMBfRdgcAAADqSURBVFjD7ZYhDoNQDEV9N+/+L6toLVjYtsG/OCECNBkSSUKlHElZIrV7Y54AEEAAAQQQQBCGmTky/+3bZ3aM415POQwQQBCGWTl75r9vt/sPQACgAFDX8Y9ACCEEQggBAYQQAlAsDu+IZXZlYQDA1UmtHwCAQjAY+AAAAQCCAEEAgBACAKAEASjYv58OAAUAoABAlXw6kAAAIIAAAgggAAAEAAABGAIAApT/BgEUAAgAUECAAIAABAAEAICiAAQAcKkAAQgAAAAAAAEAgAAAAAGAEATwUa24vnU3AAAQgMAHAEAAgAABAEAAAAAAAEAAIAAAAAABAAAAPAAAN3lB/jX/FpCAAAAAElFTkSuQmCC) repeat top center;
+    animation: move-twink-back 200s linear infinite;
+    z-index: -1;
+}
+
+@keyframes move-twink-back {
+    from { background-position: 0 0; }
+    to { background-position: -10000px 5000px; }
+}
+
+.hidden {
+    display: none;
+}
+
+/* --- Layout & Spacing --- */
+header, main, footer {
+    width: 100%;
+    max-width: 900px; /* Content width */
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    z-index: 1; /* Above background */
+}
+
+main {
+    flex-grow: 1; /* Pushes footer down */
+}
+
+header {
+    text-align: center;
+    padding-top: 4rem;
+    padding-bottom: 3rem;
+    border-bottom: 2px solid var(--accent-orange);
+    margin-bottom: 2rem;
+}
+
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 3rem;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-medium);
+    font-size: 0.9em;
+}
+
+section { /* Use for content sections */
+    margin-bottom: 2.5rem;
+}
+
+article.post-summary { /* Style for list items */
+     margin-bottom: 2rem;
+     padding-bottom: 2rem;
+     border-bottom: 1px solid var(--border-color);
+}
+article.post-summary:last-child {
+    border-bottom: none; /* Remove border from last item */
+}
+
+
+/* --- Typography --- */
+h1, h2, h3, h4, h5, h6 { /* Apply heading font more broadly */
+    font-family: var(--font-heading);
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+    margin-top: 1.5rem; /* Add some space above headings */
+}
+
+h1, .single-post-title { /* Use class for specific single post H1 */
+    font-size: 2.8em;
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px rgba(255, 127, 0, 0.5); /* Orange glow */
+    margin-top: 0; /* Reset top margin for main post title */
+    text-align: center; /* Center single post title */
+    margin-bottom: 1.5rem;
+}
+
+/* Header H1 (Site Title) */
+header h1 {
+    font-size: 2.8em;
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px rgba(255, 127, 0, 0.5); /* Orange glow */
+    margin: 0; /* Reset margin for site title */
+}
+header h1 a { /* Ensure link matches h1 style */
+    color: inherit;
+    text-decoration: none;
+    text-shadow: inherit;
+}
+header h1 a:hover {
+     color: var(--accent-orange); /* Or keep inherit */
+}
+
+h2, .list-post-title { /* Use class for list page post titles */
+    font-size: 1.8em;
+    color: var(--accent-orange);
+    /* Removed flex/icon/border styling from base h2 - apply where needed */
+    padding-bottom: 0.3rem;
+    margin-bottom: 0.8rem;
+    margin-top: 1rem;
+}
+.list-post-title a { /* Style links used for titles */
+    color: inherit;
+    text-decoration: none;
+}
+.list-post-title a:hover {
+    color: #ffffff;
+    text-shadow: 0 0 5px var(--accent-orange);
+}
+
+
+/* Subtitle in Header */
+header .subtitle {
+    font-size: 1.5em;
+    color: var(--text-light);
+    font-weight: 400;
+    border: none;
+    padding: 0;
+    margin: 0.5rem 0 0 0;
+    font-family: var(--font-body); /* Use body font for subtitle */
+    font-style: normal; /* Override default italic */
+    letter-spacing: 1px;
+}
+
+p {
+    margin-bottom: 1rem;
+    color: var(--text-light);
+}
+
+/* --- Content Styling (within main post area) --- */
+.post-content ul {
+    list-style: none; /* Remove default bullets */
+    padding-left: 1.5em; /* Indent list items */
+    margin-bottom: 1rem;
+}
+
+.post-content li {
+    margin-bottom: 0.75rem;
+    position: relative;
+}
+
+/* Custom bullet point */
+.post-content li::before {
+    content: '»'; /* Use a chevron or other symbol */
+    position: absolute;
+    left: -1.5em;
+    color: var(--accent-orange);
+    font-weight: bold;
+}
+
+.post-content a { /* Style links within post content */
+    color: var(--accent-orange);
+    text-decoration: none;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    border-bottom: 1px dotted var(--accent-orange); /* Subtle underline */
+}
+
+.post-content a:hover, .post-content a:focus {
+    color: #ffffff;
+    text-shadow: 0 0 5px var(--accent-orange);
+    border-bottom-style: solid;
+}
+
+/* Style images within content */
+.post-content img {
+    max-width: 100%; /* Make images responsive */
+    height: auto;
+    display: block; /* Center images with margin */
+    margin: 1.5rem auto; /* Add space around images */
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Embedded Content (iframes for video/social) */
+.post-content iframe {
+     max-width: 100%; /* Ensure responsiveness */
+     display: block;
+     margin: 1.5rem auto; /* Center and add spacing */
+     border: 1px solid var(--border-color);
+     border-radius: 5px;
+}
+
+/* Style blockquotes */
+.post-content blockquote {
+    border-left: 4px solid var(--accent-blue);
+    margin: 1.5rem 0 1.5rem 1rem; /* Indent slightly */
+    padding: 0.5rem 1.5rem;
+    background-color: rgba(28, 42, 64, 0.3); /* Subtle background */
+    color: var(--text-medium);
+    font-style: italic;
+}
+.post-content blockquote p {
+    margin-bottom: 0.5rem; /* Adjust paragraph spacing inside quote */
+}
+.post-content blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+/* Code blocks (basic styling - consider syntax highlighting later) */
+.post-content pre {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 1rem 1.5rem;
+    overflow-x: auto; /* Allow horizontal scroll for long lines */
+    margin: 1.5rem 0;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-size: 0.9em;
+    color: #ccc; /* Light gray code text */
+}
+.post-content code {
+     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+     font-size: 0.9em;
+     background-color: rgba(0, 0, 0, 0.3); /* Slightly different for inline */
+     padding: 0.2em 0.4em;
+     border-radius: 3px;
+}
+.post-content pre code { /* Reset inline styles within pre */
+    background: none;
+    padding: 0;
+    border-radius: 0;
+}
+
+
+/* --- Components (Keep generic styles) --- */
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px); /* Frosted glass effect */
+    -webkit-backdrop-filter: blur(5px);
+}
+
+/* Apply card style to single post content */
+.single-post-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem 2.5rem; /* More padding for main content */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px); /* Frosted glass effect */
+    -webkit-backdrop-filter: blur(5px);
+}
+
+/* Button Styles (from your CSS) */
+.button {
+    display: inline-block;
+    background-color: var(--accent-blue);
+    color: var(--text-light);
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    border: 1px solid var(--accent-orange);
+    text-align: center;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+    cursor: pointer;
+    font-family: var(--font-body); /* Ensure button uses body font */
+}
+
+.button:hover:not(:disabled),
+.button:focus:not(:disabled) {
+    background-color: #1e5bc6; /* Lighter blue */
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-shadow: none; /* Remove text shadow on button hover */
+}
+
+.button:disabled, .button.disabled { /* Add .disabled class for non-input buttons */
+    background-color: #555;
+    border-color: #777;
+    color: #aaa; /* Lighter text color for disabled state */
+    cursor: not-allowed;
+    opacity: 0.7;
+    transform: none; /* Prevent hover effect */
+    box-shadow: none; /* Prevent hover shadow */
+}
+/* Add style for read more button in lists */
+.read-more {
+    margin-top: 1rem;
+    display: inline-block; /* Ensure it behaves like a button */
+}
+
+
+/* --- Meta Data (Date, Tags) --- */
+.post-meta {
+    text-align: center;
+    color: var(--text-medium);
+    font-size: 0.9em;
+    margin-bottom: 2rem;
+}
+.post-meta span { /* Space out meta items */
+    margin: 0 0.5em;
+}
+.post-meta i { /* Style icons if used */
+    margin-right: 0.3em;
+}
+.post-meta a { /* Style links within meta (like tags) */
+     color: var(--text-medium);
+     text-decoration: none;
+     border-bottom: 1px dotted var(--text-medium);
+}
+.post-meta a:hover {
+    color: var(--accent-orange);
+    border-bottom-style: solid;
+}
+
+
+/* --- Responsiveness --- */
+@media (max-width: 768px) {
+    h1, .single-post-title {
+        font-size: 2.2em;
+    }
+     header h1 {
+         font-size: 2.2em;
+     }
+
+    header .subtitle {
+        font-size: 1.3em;
+    }
+
+    h2, .list-post-title {
+        font-size: 1.6em;
+    }
+
+    header, main, footer {
+        padding: 1.5rem 1rem;
+    }
+
+    header {
+        padding-top: 3rem;
+    }
+
+    .card, .single-post-card {
+        padding: 1rem 1.5rem;
+    }
+    .button {
+        padding: 0.7rem 1.3rem;
+        font-size: 0.95em;
+    }
+
+}
+
+@media (max-width: 480px) {
+     h1, .single-post-title {
+        font-size: 1.8em;
+    }
+      header h1 {
+         font-size: 1.8em;
+     }
+
+     header .subtitle {
+        font-size: 1.1em;
+    }
+
+    h2, .list-post-title {
+        font-size: 1.4em;
+    }
+
+    body {
+        font-size: 15px; /* Slightly smaller base font */
+    }
+
+    .single-post-card {
+        padding: 1rem 1rem; /* Less padding on small screens */
+    }
+
+    .post-content pre {
+        padding: 0.8rem 1rem;
+    }
+     .button {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9em;
+        width: 100%; /* Make buttons full width on small screens */
+        text-align: center;
+    }
+    .read-more {
+        width: auto; /* Except maybe read-more */
+    }
+    /* Ensure pagination buttons stack reasonably */
+    .pagination ul {
+        flex-direction: column;
+        gap: 0.8rem;
+        align-items: stretch;
+    }
+    .pagination li {
+        display: flex; /* Allow button inside to fill width */
+    }
+    .pagination .button {
+        flex-grow: 1; /* Make button fill the list item */
+    }
+
+}
+
+/* Remove auth/comment styles if not needed for the basic blog example */
+/* Comment out or delete sections like #comment-form, .auth-*, etc. */
+/* Keep styles relevant to basic blog display: card, button, typography, layout */

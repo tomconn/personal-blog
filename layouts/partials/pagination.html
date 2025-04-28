@@ -1,0 +1,21 @@
+{{ $paginator := .Paginator }}
+{{ if gt $paginator.TotalPages 1 }}
+<nav class="pagination" aria-label="Page navigation">
+    <ul style="display: flex; justify-content: space-between; list-style: none; padding: 0; margin-top: 2rem;">
+        <li {{ if not $paginator.HasPrev }}class="disabled"{{ end }}>
+            {{ if $paginator.HasPrev }}
+                <a href="{{ $paginator.Prev.URL }}" class="button" aria-label="Previous Page">← Newer Posts</a>
+            {{ else }}
+                <span class="button disabled" aria-disabled="true">← Newer Posts</span>
+            {{ end }}
+        </li>
+        <li {{ if not $paginator.HasNext }}class="disabled"{{ end }}>
+             {{ if $paginator.HasNext }}
+                <a href="{{ $paginator.Next.URL }}" class="button" aria-label="Next Page">Older Posts →</a>
+            {{ else }}
+                <span class="button disabled" aria-disabled="true">Older Posts →</span>
+            {{ end }}
+        </li>
+    </ul>
+</nav>
+{{ end }}

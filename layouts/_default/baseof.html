@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+
+    {{/* Google Fonts */}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+    {{/* === Link to Main CSS - UPDATED === */}}
+    <link rel="stylesheet" href="{{ "/css/style.css" | relURL }}">
+
+    {{/* RSS Feed Link */}}
+    {{ with .OutputFormats.Get "RSS" }}
+        <link href="{{ .RelPermalink }}" rel="alternate" type="application/rss+xml" title="{{ $.Site.Title }}" />
+        <link href="{{ .RelPermalink }}" rel="feed" type="application/rss+xml" title="{{ $.Site.Title }}" />
+    {{ end }}
+
+    {{/* Allow injecting extra head elements from other templates */}}
+    {{ block "head" . }}{{ end }}
+</head>
+<body>
+    {{/* Starfield Background Elements */}}
+    <div class="stars-bg"></div>
+    <div class="twinkling-bg"></div>
+
+    {{/* Include Header */}}
+    {{ partial "header.html" . }}
+
+    {{/* Main Content Area - Defined in list.html, single.html */}}
+    {{ block "main" . }}{{ end }}
+
+    {{/* Include Footer */}}
+    {{ partial "footer.html" . }}
+
+    {{/* Optional: Add JS files here if needed */}}
+</body>
+</html>

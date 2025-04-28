@@ -1,0 +1,16 @@
+baseURL = "https://softwarestable-blog.pages.dev/"
+languageCode = "en-us"
+title = "My Awesome Space Blog"
+# theme = "" # We are not using a pre-made theme
+
+# Parameters used in templates (e.g., in header.html)
+[params]
+  description = "Exploring the cosmos, one post at a time."
+
+# Enable RSS Feed generation
+[outputs]
+  home = ["HTML", "RSS"]
+
+# Necessary if you plan to embed raw HTML (like YouTube iframes) in your Markdown
+[markup.goldmark.renderer]
+  unsafe = true
