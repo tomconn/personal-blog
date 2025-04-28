@@ -15,31 +15,46 @@ paginate = 5 # Number of posts per page on list pages
 [outputs]
   home = ["HTML", "RSS"]
 
-# Allow raw HTML in Markdown (for embeds like YouTube)
-[markup.goldmark.renderer]
-  unsafe = true
-
 # Enable taxonomies (like tags)
 [taxonomies]
   tag = "tags"
   # category = "categories"
 
-# Enable ReadingTime calculation for posts
+# --- CORRECT AND CONSOLIDATED MARKUP CONFIGURATION ---
 [markup]
+  # Table of Contents Settings (Example)
   [markup.tableOfContents]
     endLevel = 3
     ordered = false
     startLevel = 2
+
+  # Syntax Highlighting Settings
   [markup.highlight]
-    noClasses = true # Use true if you DON'T want Hugo's syntax highlighting CSS classes
+    # Set noClasses = false if you want Hugo to add CSS classes for syntax highlighting
+    # You would then need to add a Hugo syntax highlighting CSS theme file
+    noClasses = true
+
+  # Goldmark Markdown Renderer Settings
   [markup.goldmark]
     [markup.goldmark.extensions]
+      definitionList = true
+      footnote = true
       linkify = true
       strikethrough = true
       table = true
       taskList = true
       typographer = true
     [markup.goldmark.parser]
+      attribute = true # Enable {% attr %} markup
       autoHeadingID = true
+      autoHeadingIDType = "github"
+    # Renderer settings nested correctly here
     [markup.goldmark.renderer]
-      unsafe = true # Keep this true for embeds
+      hardWraps = false
+      # Allow raw HTML in markdown content (e.g., for iframe embeds)
+      unsafe = true
+      xhtml = false
+
+# Enable calculation of Reading Time for posts
+enableGitInfo = false # Set to true if your repo is public & you want lastmod based on Git
+hasCJKLanguage = false
