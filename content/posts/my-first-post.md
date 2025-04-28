@@ -1,33 +1,27 @@
 ---
-title: "My First Post About Space"
-date: 2023-10-27T10:00:00Z
+title: "Exploring the Cosmos with Hugo"
+date: 2023-11-15T14:30:00Z
 draft: false # Set to false to publish
-tags: ["introduction", "space"]
+tags: ["hugo", "blogging", "space"]
 ---
 
-## Welcome to the Blog!
+Welcome to the first post on the new SoftwareStable blog! This site is built using the static site generator [Hugo](https://gohugo.io/) and hosted on [Cloudflare Pages](https://pages.cloudflare.com/).
 
-This is my first post using Hugo and the awesome space-themed CSS.
+## Why Hugo?
 
-Here's a list of things I might write about:
+Hugo is known for its incredible speed and simplicity. It takes Markdown files and templates and renders a complete static website.
 
-*   Planetary exploration
-*   New telescope discoveries
-*   The physics of black holes
-*   Maybe even some sci-fi!
+*   Fast build times
+*   Easy content creation in Markdown
+*   Flexible templating
+*   No database needed
 
-Check out this cool image (make sure you have `static/images/placeholder.jpg`):
+## Styling
 
-![Placeholder Galaxy Image](/images/placeholder.jpg)
+The visual theme uses CSS variables for colors like `--primary-bg`, `--accent-orange`, and fonts like 'Orbitron' and 'Montserrat'. The layout leverages CSS Flexbox and uses a `.container` class for consistent width.
 
-You can also embed videos, like this placeholder YouTube embed (requires `unsafe = true` in `config.toml`):
+Here's an example of an embedded image (if you place one in `static/images/`):
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-> This is a blockquote. Isn't space fascinating? It really makes you think about our place in the universe.
-
-Let's add some `code` inline and a block of code:
-
-```bash
-# Example command
-hugo server -D
+```html
+<!-- Example Image - replace with your own -->
+<!-- <img src="/images/galaxy.jpg" alt="A distant galaxy"> -->

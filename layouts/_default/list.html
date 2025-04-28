@@ -1,35 +1,25 @@
 {{ define "main" }}
 <main>
-    {{/* Optional: Title for the list page (e.g., "Posts") */}}
-    {{/* <h1 class="page-title">{{ .Title }}</h1> */}}
+    <div class="container">
+        {{ $paginator := .Paginate (where .Site.RegularPages "Type" "in" .Site.Params.mainSections | default (where .Site.RegularPages "Section" "posts")) }}
+        {{ range $paginator.Pages }}
+            <article class="card" style="margin-bottom: 2rem;"> {{/* Use card, add margin between posts */}}
+                {{/* Post Title - uses generic H2 style from CSS */}}
+                <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
 
-    {{ $paginator := .Paginate (where .Site.RegularPages "Type" "in" .Site.Params.mainSections | default (where .Site.RegularPages "Type" "posts")) }}
-    {{ range $paginator.Pages }}
-        <article class="post-summary card"> {{/* Wrap summary in a card */}}
-            <h2 class="list-post-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-            <div class="post-meta">
-                <span><time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "January 2, 2006" }}</time></span>
-                {{ with .Params.tags }}
-                <span>| Tags:
-                    {{ range $index, $tag := . }}
-                        {{ if $index }}, {{ end }}<a href="{{ "/tags/" | relURL }}{{ . | urlize }}">{{ . }}</a>
-                    {{ end }}
-                </span>
-                {{ end }}
-            </div>
-            <div>
-                 {{ .Summary }} {{/* Hugo automatically generates a summary */}}
-            </div>
-             <a href="{{ .RelPermalink }}" class="button read-more">Read More →</a> {{/* Optional button */}}
-        </article>
-    {{ end }}
+                {{/* Post Meta - Rendered using basic paragraph/link styles */}}
+                {{ partial "post-meta.html" . }}
 
-    {{/* Include Pagination */}}
-    {{ partial "pagination.html" . }}
+                {{/* Post Summary - uses generic P style */}}
+                <p>{{ .Summary }}</p>
 
+                {{/* Read More Button */}}
+                <a href="{{ .RelPermalink }}" class="button" style="margin-top: 1rem;">Read More →</a>
+            </article>
+        {{ end }}
+
+        {{/* Pagination Partial */}}
+        {{ partial "pagination.html" . }}
+    </div>
 </main>
 {{ end }}
-
-{{/* Add default mainSections in config.toml if needed */}}
-{{/* [params] */}}
-{{/*   mainSections = ["posts"] */}}

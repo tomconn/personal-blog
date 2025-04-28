@@ -1,0 +1,21 @@
+{{/* This partial renders meta-data using basic <p> and <a> tags */}}
+    {{/* Appearance will depend heavily on the generic styles in style.css */}}
+    <div class="post-meta" style="font-size: 0.9em; color: var(--text-medium); margin-bottom: 1rem; text-align: center;">
+        {{ with .Date }}
+        <span>
+            <time datetime="{{ .Format "2006-01-02T15:04:05Z07:00" }}">{{ .Format (.Site.Params.dateFormat | default "January 2, 2006") }}</time>
+        </span>
+        {{ end }}
+    
+        {{ with .Params.tags }}
+        <span style="margin-left: 0.5em;">| Tags:
+            {{ range $index, $tag := . }}
+                {{ if $index }}, {{ end }}<a href="{{ "/tags/" | relURL }}{{ . | urlize }}" style="color: inherit; text-decoration: underline;">{{ . }}</a>
+            {{ end }}
+        </span>
+        {{ end }}
+    
+        {{ with .ReadingTime }}
+            <span style="margin-left: 0.5em;">| {{ . }} min read</span>
+        {{ end }}
+    </div>

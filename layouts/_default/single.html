@@ -1,20 +1,19 @@
 {{ define "main" }}
 <main>
-    <article class="single-post-card"> {{/* Apply card styling */}}
-        <h1 class="single-post-title">{{ .Title }}</h1>
-        <div class="post-meta">
-             <span><time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "January 2, 2006" }}</time></span>
-             {{ with .Params.tags }}
-                <span>| Tags:
-                    {{ range $index, $tag := . }}
-                        {{ if $index }}, {{ end }}<a href="{{ "/tags/" | relURL }}{{ . | urlize }}">{{ . }}</a>
-                    {{ end }}
-                </span>
-             {{ end }}
-        </div>
-        <div class="post-content">
-            {{ .Content }} {{/* The main markdown content */}}
-        </div>
-    </article>
+     <div class="container">
+        <article class="card"> {{/* Use card style for the whole post */}}
+            {{/* Post Title - uses generic H1 style */}}
+            <h1>{{ .Title }}</h1>
+
+            {{/* Post Meta - Rendered using basic paragraph/link styles */}}
+            {{ partial "post-meta.html" . }}
+
+            {{/* Post Content - Elements INSIDE here rely on generic styles (p, a, ul, li, etc.) */}}
+            {{/* or browser defaults if not explicitly styled in the CSS */}}
+            <div class="content-area" style="margin-top: 1.5rem;"> {{/* Add basic top margin */}}
+                {{ .Content }}
+            </div>
+        </article>
+    </div>
 </main>
 {{ end }}

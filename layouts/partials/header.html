@@ -1,7 +1,11 @@
-<header>
-    <h1><a href="{{ "/" | relURL }}">{{ .Site.Title }}</a></h1>
-    {{ with .Site.Params.description }}
-        <p class="subtitle">{{ . }}</p>
-    {{ end }}
-    {{/* Add navigation links here if desired */}}
+{{/* Only show this header on the home page / list pages */}}
+{{ if or .IsHome .IsSection .IsNode }}
+<header> {{/* Matches header:not(.auth-header) */}}
+    <div class="container">
+        <h1><a href="{{ "/" | relURL }}">{{ .Site.Title }}</a></h1>
+        {{ with .Site.Params.description }}
+            <h2>{{ . }}</h2> {{/* Uses header:not(.auth-header) .container h2 style */}}
+        {{ end }}
+    </div>
 </header>
+{{ end }}

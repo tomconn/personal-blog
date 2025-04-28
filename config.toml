@@ -1,16 +1,45 @@
 baseURL = "https://blog.softwarestable.com/"
 languageCode = "en-us"
-title = "My Awesome Space Blog"
-# theme = "" # We are not using a pre-made theme
+title = "SoftwareStable Blog" # Your Blog Title
+theme = ""
+paginate = 5 # Number of posts per page on list pages
 
-# Parameters used in templates (e.g., in header.html)
+# Parameters used in templates
 [params]
-  description = "Exploring the cosmos, one post at a time."
+  description = "Thoughts and articles from SoftwareStable."
+  # Optional: Define a default date format if needed
+  # dateFormat = "Jan 2, 2006"
+  mainSections = ["posts"] # Crucial for pagination to find posts
 
 # Enable RSS Feed generation
 [outputs]
   home = ["HTML", "RSS"]
 
-# Necessary if you plan to embed raw HTML (like YouTube iframes) in your Markdown
+# Allow raw HTML in Markdown (for embeds like YouTube)
 [markup.goldmark.renderer]
   unsafe = true
+
+# Enable taxonomies (like tags)
+[taxonomies]
+  tag = "tags"
+  # category = "categories"
+
+# Enable ReadingTime calculation for posts
+[markup]
+  [markup.tableOfContents]
+    endLevel = 3
+    ordered = false
+    startLevel = 2
+  [markup.highlight]
+    noClasses = true # Use true if you DON'T want Hugo's syntax highlighting CSS classes
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      linkify = true
+      strikethrough = true
+      table = true
+      taskList = true
+      typographer = true
+    [markup.goldmark.parser]
+      autoHeadingID = true
+    [markup.goldmark.renderer]
+      unsafe = true # Keep this true for embeds

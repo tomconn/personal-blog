@@ -10,8 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
-    {{/* === Link to Main CSS - UPDATED === */}}
-    <link rel="stylesheet" href="{{ "https://www.softwarestable.com/style.css" | relURL }}">
+    {{/* === Link to the SINGLE CSS file === */}}
+    <link rel="stylesheet" href="{{ "/css/style.css" | relURL }}">
 
     {{/* RSS Feed Link */}}
     {{ with .OutputFormats.Get "RSS" }}
@@ -19,7 +19,6 @@
         <link href="{{ .RelPermalink }}" rel="feed" type="application/rss+xml" title="{{ $.Site.Title }}" />
     {{ end }}
 
-    {{/* Allow injecting extra head elements from other templates */}}
     {{ block "head" . }}{{ end }}
 </head>
 <body>
@@ -27,15 +26,29 @@
     <div class="stars-bg"></div>
     <div class="twinkling-bg"></div>
 
-    {{/* Include Header */}}
+    {{/* Top Navigation Bar - Using classes from your CSS */}}
+    <nav class="auth-nav">
+        <div class="container nav-container">
+            <div class="nav-left">
+                 {{/* Link back to the main site */}}
+                 <a href="https://www.softwarestable.com/" title="Back to Main Site">SoftwareStable Home</a>
+            </div>
+            <div class="nav-right">
+                 {{/* Link to the blog home page */}}
+                <a href="{{ "/" | relURL }}" class="nav-blog-link">Blog Home</a>
+                {{/* Add other links here if needed, e.g., for auth later */}}
+            </div>
+        </div>
+    </nav>
+
+    {{/* Main Header Partial */}}
     {{ partial "header.html" . }}
 
-    {{/* Main Content Area - Defined in list.html, single.html */}}
+    {{/* Main Content Block - Rendered by list.html / single.html */}}
     {{ block "main" . }}{{ end }}
 
-    {{/* Include Footer */}}
+    {{/* Footer Partial */}}
     {{ partial "footer.html" . }}
 
-    {{/* Optional: Add JS files here if needed */}}
 </body>
 </html>

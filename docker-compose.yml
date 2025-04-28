@@ -11,3 +11,5 @@ services:
     # Optional: environment variables if needed by Hugo/theme
     # environment:
     #   - HUGO_ENV=development
+
+    
