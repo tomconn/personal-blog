@@ -1,8 +1,9 @@
 ---
 title: "Exploring the Cosmos with Hugo"
 date: 2023-11-15T14:30:00Z
-draft: false # Set to false to publish
 tags: ["hugo", "blogging", "space"]
+draft: true  # <-- Add or change this line
+tags: ["old", "archive"]
 ---
 
 Welcome to the first post on the new SoftwareStable blog! This site is built using the static site generator [Hugo](https://gohugo.io/) and hosted on [Cloudflare Pages](https://pages.cloudflare.com/).
@@ -25,3 +26,9 @@ Here's an example of an embedded image (if you place one in `static/images/`):
 ```html
 <!-- Example Image - replace with your own -->
 <!-- <img src="/images/galaxy.jpg" alt="A distant galaxy"> -->
+ function greet(name) {
+  console.log(`Hello, ${name}! Welcome to the edge.`);
+}
+
+greet('Developer');
+```
