@@ -1,11 +1,9 @@
 ---
-title: "Build a Complete Personal Website with Cloudflare Pages"
-date: 2026-04-28T19:30:00Z
-draft: false # Set to false to publish
+title: "Build an Complete Personal Website with Cloudflare Pages"
+date: 2025-04-28T19:30:00Z
+draft: false # publish
 tags: ["hugo", "cloudflare", "serverless", "website"]
 ---
-
-# Build a Complete Personal Website with Cloudflare Pages, Workers & SQL Database D1
 
 Ever dreamt of running a dynamic website with user logins, persistent storage, and lightning-fast global delivery without paying a hefty hosting bill? It sounds too good to be true, right? Wrong! Welcome to the world of Cloudflare Pages and Workers, a powerful duo that lets you build and deploy sophisticated web applications often entirely within Cloudflare's generous free tier.
 
@@ -20,11 +18,11 @@ When combined, Pages serve your fast frontend, and Workers provide the dynamic b
 
 This blog post dives into how you can leverage Cloudflare's ecosystem to build a fully functional website. We'll explore:
 
-1.  **Cloudflare Pages:** Hosting your static website content (HTML, CSS, JS).
-2.  **Cloudflare Workers:** Implementing serverless functions for dynamic tasks like user registration and login.
-3.  **Cloudflare D1:** Utilizing Cloudflare's native serverless SQL database for persistent storage (like user credentials).
-4.  **DNS Management:** Setting up Cloudflare Pages with either Cloudflare DNS or your own custom domain name registered elsewhere (like Namecheap), while potentially keeping external email forwarding intact.
-5.  **GitOps Workflow:** Demonstrating how changes pushed to your Git repository automatically trigger deployments of both your website and your backend functions, making updates simple and reliable.
+* **Cloudflare Pages:** Hosting your static website content (HTML, CSS, JS).
+* **Cloudflare Workers:** Implementing serverless functions for dynamic tasks like user registration and login.
+* **Cloudflare D1:** Utilizing Cloudflare's native serverless SQL database for persistent storage (like user credentials).
+* **DNS Management:** Setting up Cloudflare Pages with either Cloudflare DNS or your own custom domain name registered elsewhere (like Namecheap), while potentially keeping external email forwarding intact.
+* **GitOps Workflow:** Demonstrating how changes pushed to your Git repository automatically trigger deployments of both your website and your backend functions, making updates simple and reliable.
 
 We'll use a real-world example: a personal website that includes user registration, login, and account activation features, all powered by Cloudflare.
 
@@ -38,12 +36,12 @@ Everything starts with your code living in a Git repository. Cloudflare Pages ho
 
 *   **Why Git?** It provides version control and, crucially, acts as the trigger for Cloudflare's automatic deployments (GitOps).
 *   **Process:**
-    1.  Create a repository on GitHub (can be private).
-    2.  Clone it to your local machine.
-    3.  Add your website files (`index.html`, `style.css`, `script.js`) and your backend function code (typically in a `/functions` directory).
-    4.  Commit and push your changes.
+    * Create a repository on GitHub (can be private).
+    * Clone it to your local machine.
+    * Add your website files (`index.html`, `style.css`, `script.js`) and your backend function code (typically in a `/functions` directory).
+    * Commit and push your changes.
 
-```text
+```bash
 /
 ├── functions/                  # Backend Cloudflare Functions
 │   ├── api/                    # API endpoint handlers
@@ -70,17 +68,17 @@ When you push changes to the designated branch (e.g., `main`), Cloudflare automa
 
 While Cloudflare offers DNS services, you might have your domain registered elsewhere (like Namecheap) and want to keep it there, especially if you use their email forwarding. Cloudflare Pages makes this easy.
 
-*   **Goal:** Point `www.yourdomain.com` to your Cloudflare Pages site without changing your domain's primary nameservers.
-*   **Process:**
-    1.  In your Cloudflare Pages project settings, add your custom domain (e.g., `www.yourdomain.com`).
-    2.  Cloudflare will provide a unique CNAME target value (e.g., `<your-project>.pages.dev`).
-    3.  Log in to your DNS provider (Namecheap). Go to the DNS settings for your domain.
-    4.  Add a `CNAME` record:
+* **Goal:** Point `www.yourdomain.com` to your Cloudflare Pages site without changing your domain's primary nameservers.
+* **Process:**
+    * In your Cloudflare Pages project settings, add your custom domain (e.g., `www.yourdomain.com`).
+    * Cloudflare will provide a unique CNAME target value (e.g., `<your-project>.pages.dev`).
+    * Log in to your DNS provider (Namecheap). Go to the DNS settings for your domain.
+    * Add a `CNAME` record:
         *   **Host/Name:** `www`
         *   **Value/Target:** Paste the value Cloudflare provided.
         *   **TTL:** Set to Automatic or a low value (like 5 minutes).
-    5.  Ensure no other `A` or `CNAME` records exist for the `www` host. **Leave your MX records untouched** to preserve external email flow.
-    6.  Cloudflare will detect the change, validate the domain, and automatically provision an SSL certificate.
+    * Ensure no other `A` or `CNAME` records exist for the `www` host. **Leave your MX records untouched** to preserve external email flow.
+    * Cloudflare will detect the change, validate the domain, and automatically provision an SSL certificate.
 
 This setup lets Cloudflare handle the web hosting while your original provider continues managing DNS resolution and email.
 
@@ -114,7 +112,8 @@ export async function onRequestPost({ request, env }) {
         // --- Basic Setup & Input Parsing ---
         if (!env.DB) {
              console.error("/api/login: FATAL - D1 Database binding (DB) is not configured.");
-             return new Response(JSON.stringify({ success: false, message: 'Server configuration error [db].' }), { status: 500 });
+             return new Response(
+              JSON.stringify({ success: false, message: 'Server Error [db].' }), { status: 500 });
         }
         console.log("/api/login: DB binding found.");
 
@@ -192,8 +191,8 @@ Dynamic applications need persistent storage. Cloudflare D1 is a serverless SQL 
 
 *   **Purpose:** Store user credentials (email, hashed password, salt), activation status, session tokens, etc.
 *   **Setup:**
-    1.  Create a D1 database via the Cloudflare dashboard (Workers & Pages -> D1).
-    2.  Define your table schemas using SQL. For authentication, you'd typically need:
+    * Create a D1 database via the Cloudflare dashboard (Workers & Pages -> D1).
+    * Define your table schemas using SQL. For authentication, you'd typically need:
         *   `users`: Stores user info like ID, email, password hash, salt, activation status/token.
         *   `sessions`: Stores active session tokens linked to user IDs with expiry times.
 
@@ -268,12 +267,12 @@ For registration, you often need to verify the user's email address. This requir
 *   **Challenge:** Cloudflare Workers themselves don't send emails directly.
 *   **Solution:** Use an external transactional email service (like Brevo (formerly Sendinblue), Mailgun, SendGrid, AWS SES).
 *   **Process:**
-    1.  Sign up for an email service and get API keys. Verify your sending domain/email address.
-    2.  Store the API key and sender email address securely as Environment Variables in your Cloudflare Pages project settings (e.g., `EMAIL_API_KEY`, `NOTIFICATION_EMAIL_FROM`).
-    3.  In your `register.js` Worker:
+    * Sign up for an email service and get API keys. Verify your sending domain/email address.
+    * Store the API key and sender email address securely as Environment Variables in your Cloudflare Pages project settings (e.g., `EMAIL_API_KEY`, `NOTIFICATION_EMAIL_FROM`).
+    * In your `register.js` Worker:
         *   After successfully creating the user record in D1 (with `is_active = 0` and an activation token/expiry), call a utility function (`sendEmail`).
         *   The `sendEmail` utility function (e.g., in `functions/utils/email.js`) uses `fetch` to make an API call to your chosen email service, passing the recipient's email, sender details, subject, and the email body containing the activation link (pointing to another Worker function like `/api/activate-account`).
-    4.  The `/api/activate-account` function verifies the token from the link, checks its expiry against D1, and if valid, sets `is_active = 1` for the user in the database.
+    * The `/api/activate-account` function verifies the token from the link, checks its expiry against D1, and if valid, sets `is_active = 1` for the user in the database.
 
 ## Summary: Your Fully Functional Free Website
 
