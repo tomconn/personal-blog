@@ -5,7 +5,7 @@ draft: false # publish
 tags: ["hugo", "cloudflare", "serverless", "website"]
 ---
 
-Ever dreamt of running a dynamic website with user logins, persistent storage, and lightning-fast global delivery without paying a hefty hosting bill? It sounds too good to be true, right? Wrong! Welcome to the world of Cloudflare Pages and Workers, a powerful duo that lets you build and deploy sophisticated web applications often entirely within Cloudflare's generous free tier.
+Ever dreamt of running a dynamic website with user logins, persistent storage, and lightning-fast global delivery without paying a hefty hosting bill? It sounds too good to be true, right? Wrong! Welcome to the world of Cloudflare Pages and Workers, a powerful duo that lets you build and deploy sophisticated web applications often entirely within Cloudflare's **generous free tier**.
 
 **What are Cloudflare Pages & Workers?**
 
@@ -222,8 +222,9 @@ CREATE TABLE sessions (
 CREATE INDEX idx_sessions_expires_at ON sessions(expires_at);
 ```
 
-    3.  **Bind the Database:** In your Cloudflare Pages project settings (Settings -> Functions -> D1 database bindings), bind your D1 database to your functions. This makes it available via the `env.DB` object in your Worker code (as seen in the `login.js` example).
-    4.  **Session Cleanup:** Since sessions expire, you need a mechanism to remove old ones. A separate Cloudflare Worker running on a Cron Trigger is ideal. This Worker periodically connects to the *same* D1 database and deletes rows from the `sessions` table where `expires_at` is in the past.
+*   **Bind the Database:** In your Cloudflare Pages project settings (Settings -> Functions -> D1 database bindings), bind your D1 database to your functions. This makes it available via the `env.DB` object in your Worker code (as seen in the `login.js` example).
+*   **Session Cleanup:** Since sessions expire, you need a mechanism to remove old ones. A separate Cloudflare Worker running on a Cron Trigger is ideal. This Worker periodically connects to the *same* D1 database and deletes rows from the `sessions` table where `expires_at` is in the past.
+
 
 ```javascript
 /**
@@ -274,7 +275,7 @@ For registration, you often need to verify the user's email address. This requir
         *   The `sendEmail` utility function (e.g., in `functions/utils/email.js`) uses `fetch` to make an API call to your chosen email service, passing the recipient's email, sender details, subject, and the email body containing the activation link (pointing to another Worker function like `/api/activate-account`).
     * The `/api/activate-account` function verifies the token from the link, checks its expiry against D1, and if valid, sets `is_active = 1` for the user in the database.
 
-## Summary: Your Fully Functional Free Website
+## Summary: Your Fully Functional and Free Website
 
 By combining Cloudflare Pages for fast static hosting, Cloudflare Workers for serverless backend logic, and Cloudflare D1 for database storage, you can build surprisingly complex and robust web applications often entirely within the free tier.
 
@@ -284,4 +285,4 @@ Ready to explore the code yourself? Check out the full example project on GitHub
 
 [**https://github.com/tomconn/personal-website**](https://github.com/tomconn/personal-website)
 
-Dive in, experiment, and see what amazing things you can build on the Cloudflare edge!
+Dive in, and see what amazing things you can build on the Cloudflare edge!
