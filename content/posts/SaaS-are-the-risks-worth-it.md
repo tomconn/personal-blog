@@ -1,6 +1,6 @@
 ---
 title: "Is Your SaaS Vendor Secretly Holding the Keys to Your Kingdom? (Probably Not, But Let's Check Anyway!)"
-date: 2025-04-30T19:30:00Z
+date: 2025-04-29T19:30:00Z
 draft: false # publish
 tags: ["SaaS", "Software as a Service", "Supply Chain Security"]
 ---
