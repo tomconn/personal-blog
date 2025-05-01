@@ -5,6 +5,8 @@ draft: false # publish
 tags: ["hugo", "cloudflare", "serverless", "website"]
 ---
 
+<img src="/images/cloud-services.png" alt="Cloudflare hosted website">
+
 Ever dreamt of running a dynamic website with user logins, persistent storage, and lightning-fast global delivery without paying a hefty hosting bill? It sounds too good to be true, right? Wrong! Welcome to the world of Cloudflare Pages and Workers, a powerful duo that lets you build and deploy sophisticated web applications often entirely within Cloudflare's **generous free tier**.
 
 **What are Cloudflare Pages & Workers?**
