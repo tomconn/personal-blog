@@ -1,13 +1,11 @@
 ---
 title: "Ditch the Gliffy, Excalidraw, and Visio and Begin Modelling as Code with Structurizr"
-date: 2025-05-4T01:30:00Z
+date: 2025-05-04T01:30:00Z
 draft: false # publish
 tags: ["Model as Code", "Diagramming", "Architecture"]
 ---
 
 <img src="/images/model-as-code.png" alt="Model as Code">
-
-## 
 
 Tired of architecture diagrams that are perpetually out-of-date, inconsistent, or locked away in proprietary tools? Do you find yourself dreading the task of updating that Visio diagram after a minor infrastructure change? There's a better way: **Model as Code**. By defining your architecture using a textual Domain-Specific Language (DSL), you can version control, automate, and maintain your diagrams with the same rigor as your application code. This post explores how to use Structurizr and its DSL to create AWS deployment diagrams.
 
@@ -15,7 +13,7 @@ Tired of architecture diagrams that are perpetually out-of-date, inconsistent, o
 
 Before diving into the DSL, let's clarify some concepts:
 
-1.  **The C4 Model:** Created by Simon Brown, the C4 model provides a simple, hierarchical way to think about and visualize software architecture at different levels of abstraction:
+1.  **The C4 Model:** Created by Simon Brown, the [C4 model](https://c4model.com/) provides a simple, hierarchical way to think about and visualize software architecture at different levels of abstraction:
     *   **Level 1: System Context:** Shows your system in relation to users and other systems.
     *   **Level 2: Containers:** Zooms into your system, showing deployable/runnable units (web apps, APIs, databases, microservices).
     *   **Level 3: Components:** Zooms into a container, showing its internal code building blocks.
@@ -64,39 +62,39 @@ workspace "Amazon Web Services Example" "AWS deployment architecture." {
 Before modeling the deployment, we need a logical representation of the software being deployed. Here, we define a software system ("Reference") containing several containers (applications and database schemas).
 
 ```structurizr
-        x = softwaresystem "Reference" { // Define the overall software system
+x = softwaresystem "Reference" { // Define the overall software system
 
-            // Define logical containers within the system
-            db1 = container "Database Schema" {
-                tags "Database"
-            }
-            db2 = container "Database Schema2" {
-                tags "Database"
-            }
-            proxy1 = container "Proxy1" {
-                technology "Proxy"
-                tags "Application"
-            }
-            wa1 = container "Web Application1" {
-                technology "Java and Spring Boot"
-                tags "Application"
-            }
-            // Define relationships between logical containers
-            proxy1 -> wa1 "http"
-            wa1 -> db1 "Reads from and writes to" "TLS"
+    // Define logical containers within the system
+    db1 = container "Database Schema" {
+        tags "Database"
+    }
+    db2 = container "Database Schema2" {
+        tags "Database"
+    }
+    proxy1 = container "Proxy1" {
+        technology "Proxy"
+        tags "Application"
+    }
+    wa1 = container "Web Application1" {
+        technology "Java and Spring Boot"
+        tags "Application"
+    }
+    // Define relationships between logical containers
+    proxy1 -> wa1 "http"
+    wa1 -> db1 "Reads from and writes to" "TLS"
 
-            proxy2 = container "Proxy2" {
-                technology "Proxy"
-                tags "Application"
-            }
-            wa2 = container "Web Application2" {
-                technology "Java and Spring Boot"
-                tags "Application"
-            }
-            // Define relationships
-            proxy2 -> wa2 "http"
-            wa2 -> db1 "Reads from and writes to" "TLS" // Note: both apps use db1
-        }
+    proxy2 = container "Proxy2" {
+        technology "Proxy"
+        tags "Application"
+    }
+    wa2 = container "Web Application2" {
+        technology "Java and Spring Boot"
+        tags "Application"
+    }
+    // Define relationships
+    proxy2 -> wa2 "http"
+    wa2 -> db1 "Reads from and writes to" "TLS" // Note: both apps use db1
+}
 ```
 
 *   `softwaresystem`: Represents the highest level of abstraction for the system we are modeling. We assign it to the variable `x` for easier reference.
@@ -110,20 +108,20 @@ Before modeling the deployment, we need a logical representation of the software
 Now we define the target deployment environment ("Production") and start modeling the infrastructure hierarchy.
 
 ```structurizr
-        prod = deploymentEnvironment "Production" { // Define the environment
-            // Top-level node representing the cloud provider
-            deploymentNode "Amazon Web Services" {
-                tags "Amazon Web Services - Cloud"
+prod = deploymentEnvironment "Production" { // Define the environment
+    // Top-level node representing the cloud provider
+    deploymentNode "Amazon Web Services" {
+        tags "Amazon Web Services - Cloud"
 
-                // Node representing the AWS Region
-                region = deploymentNode "ap-southeast-2" {
-                    tags "Amazon Web Services - Region"
+        // Node representing the AWS Region
+        region = deploymentNode "ap-southeast-2" {
+            tags "Amazon Web Services - Region"
 
-                    // Infrastructure and nodes within the region go here...
+            // Infrastructure and nodes within the region go here...
 
-                } // End Region
-            } // End AWS Account/Cloud
-        } // End Deployment Environment
+        } // End Region
+    } // End AWS Account/Cloud
+} // End Deployment Environment
 ```
 
 *   `deploymentEnvironment`: A top-level element representing where the software is deployed (e.g., "Development", "Staging", "Production").
@@ -134,21 +132,21 @@ Now we define the target deployment environment ("Production") and start modelin
 Inside the Region node, we define key infrastructure components like Route 53 and the NLB.
 
 ```structurizr
-                    // Node representing DNS service
-                    dns = infrastructureNode "DNS" {
-                        technology "Route 53"
-                        description "Host based routing for incoming requests"
-                        tags "Amazon Web Services - Route 53"
-                    }
+// Node representing DNS service
+dns = infrastructureNode "DNS" {
+    technology "Route 53"
+    description "Host based routing for incoming requests"
+    tags "Amazon Web Services - Route 53"
+}
 
-                    // Node representing the Load Balancer
-                    lb = infrastructureNode "Network Load Balancer" {
-                        technology "Network Load Balancer"
-                        description "Automatically distributes incoming application traffic."
-                        tags "Amazon Web Services - Elastic Load Balancing Network Load Balancer"
-                        // Relationship: DNS forwards to LB
-                        dns -> this "Forwards requests to" "HTTPS"
-                    }
+// Node representing the Load Balancer
+lb = infrastructureNode "Network Load Balancer" {
+    technology "Network Load Balancer"
+    description "Automatically distributes incoming application traffic."
+    tags "Amazon Web Services - Elastic Load Balancing Network Load Balancer"
+    // Relationship: DNS forwards to LB
+    dns -> this "Forwards requests to" "HTTPS"
+}
 ```
 
 *   `infrastructureNode`: Represents supporting infrastructure that doesn't directly host containers but is part of the deployment environment (e.g., load balancers, DNS, firewalls, message queues).
@@ -159,44 +157,44 @@ Inside the Region node, we define key infrastructure components like Route 53 an
 We model the compute layer, nesting Availability Zones (AZs), EC2 instances, and conceptual "POD" nodes within an Auto Scaling Group.
 
 ```structurizr
-                    // Node representing the Auto Scaling Group
-                    deploymentNode "Autoscaling group" {
-                        tags "Amazon Web Services - Auto Scaling"
+// Node representing the Auto Scaling Group
+deploymentNode "Autoscaling group" {
+    tags "Amazon Web Services - Auto Scaling"
 
-                        // Node representing Availability Zone 1
-                        deploymentNode "AZ 1" {
-                            tags "Amazon Web Services - Availability Zone"
+    // Node representing Availability Zone 1
+    deploymentNode "AZ 1" {
+        tags "Amazon Web Services - Availability Zone"
 
-                            // Node representing an EC2 Instance
-                            deploymentNode "Amazon EC2 1" {
-                                tags "Amazon Web Services - EC2"
+        // Node representing an EC2 Instance
+        deploymentNode "Amazon EC2 1" {
+            tags "Amazon Web Services - EC2"
 
-                                // Node representing a K8s Pod or similar container host
-                                deploymentNode "POD" {
-                                    tags "Container" // Used for styling/grouping
+            // Node representing a K8s Pod or similar container host
+            deploymentNode "POD" {
+                tags "Container" // Used for styling/grouping
 
-                                    // Container instances go here...
-                                }
-                            }
-                        } // End AZ 1
+                // Container instances go here...
+            }
+        }
+    } // End AZ 1
 
-                        // Node representing Availability Zone 2
-                        deploymentNode "AZ 2" {
-                            tags "Amazon Web Services - Availability Zone"
+    // Node representing Availability Zone 2
+    deploymentNode "AZ 2" {
+        tags "Amazon Web Services - Availability Zone"
 
-                            // Node representing another EC2 Instance
-                            deploymentNode "Amazon EC2 x" { // Name implies multiple/generic
-                                tags "Amazon Web Services - EC2"
+        // Node representing another EC2 Instance
+        deploymentNode "Amazon EC2 x" { // Name implies multiple/generic
+            tags "Amazon Web Services - EC2"
 
-                                // Node representing a Pod in AZ 2
-                                deploymentNode "POD" {
-                                    tags "Container"
+            // Node representing a Pod in AZ 2
+            deploymentNode "POD" {
+                tags "Container"
 
-                                     // Container instances go here...
-                                }
-                            }
-                        } // End AZ 2
-                    } // End Autoscaling group
+                    // Container instances go here...
+            }
+        }
+    } // End AZ 2
+} // End Autoscaling group
 ```
 
 *   Nesting `deploymentNode` clearly shows the hierarchy: ASG > AZ > EC2 > POD.
@@ -206,33 +204,33 @@ We model the compute layer, nesting Availability Zones (AZs), EC2 instances, and
 This is the crucial step where we link the *logical* containers (from Stage 2) to the *physical* deployment nodes (from Stage 5). We use `containerInstance` to show *instances* of our application containers running within the PODs.
 
 ```structurizr
-                                // Inside the first POD in AZ 1
-                                deploymentNode "POD" {
-                                    tags "Container"
+// Inside the first POD in AZ 1
+deploymentNode "POD" {
+    tags "Container"
 
-                                    // Instance of the logical proxy1 container
-                                    proxyInstance = containerInstance x.proxy1 {
-                                        // Relationship: LB forwards to this specific instance
-                                        lb -> this "Forwards requests to" "HTTPS"
-                                    }
-                                    // Instance of the logical wa1 container
-                                    webApplicationInstance = containerInstance x.wa1
-                                }
+    // Instance of the logical proxy1 container
+    proxyInstance = containerInstance x.proxy1 {
+        // Relationship: LB forwards to this specific instance
+        lb -> this "Forwards requests to" "HTTPS"
+    }
+    // Instance of the logical wa1 container
+    webApplicationInstance = containerInstance x.wa1
+}
 ```
 
 ```structurizr
-                                // Inside the second POD in AZ 2
-                                deploymentNode "POD" {
-                                    tags "Container"
+// Inside the second POD in AZ 2
+deploymentNode "POD" {
+    tags "Container"
 
-                                    // Instance of the logical proxy2 container
-                                    proxyInstance = containerInstance x.proxy2 {
-                                        // Relationship: LB also forwards here
-                                        lb -> this "Forwards requests to" "HTTPS"
-                                    }
-                                    // Instance of the logical wa2 container
-                                    webApplicationInstance = containerInstance x.wa2
-                                }
+    // Instance of the logical proxy2 container
+    proxyInstance = containerInstance x.proxy2 {
+        // Relationship: LB also forwards here
+        lb -> this "Forwards requests to" "HTTPS"
+    }
+    // Instance of the logical wa2 container
+    webApplicationInstance = containerInstance x.wa2
+}
 ```
 
 *   `containerInstance`: Represents an instance of a specific logical `container` running on a specific `deploymentNode`.
@@ -244,32 +242,32 @@ This is the crucial step where we link the *logical* containers (from Stage 2) t
 We model the RDS deployment similarly, showing the overall service and instances within different AZs for high availability.
 
 ```structurizr
-                    // Node representing the RDS service/cluster
-                    deploymentNode "Amazon RDS" {
-                        tags "Amazon Web Services - RDS"
+// Node representing the RDS service/cluster
+deploymentNode "Amazon RDS" {
+    tags "Amazon Web Services - RDS"
 
-                        // Node representing the AZ for the active instance
-                        deploymentNode "AZ 1" {
-                            tags "Amazon Web Services - Availability Zone"
-                            // Node representing the specific instance
-                            deploymentNode "Active" {
-                                tags "Amazon Web Services - Aurora PostgreSQL Instance"
+    // Node representing the AZ for the active instance
+    deploymentNode "AZ 1" {
+        tags "Amazon Web Services - Availability Zone"
+        // Node representing the specific instance
+        deploymentNode "Active" {
+            tags "Amazon Web Services - Aurora PostgreSQL Instance"
 
-                                // Database container instance goes here...
-                            }
-                        } // End AZ 1 (RDS)
+            // Database container instance goes here...
+        }
+    } // End AZ 1 (RDS)
 
-                        // Node representing the AZ for the passive instance
-                        deploymentNode "AZ 2" {
-                            tags "Amazon Web Services - Availability Zone"
-                             // Node representing the specific instance
-                            deploymentNode "Passive" {
-                                tags "Amazon Web Services - Aurora PostgreSQL Instance"
+    // Node representing the AZ for the passive instance
+    deploymentNode "AZ 2" {
+        tags "Amazon Web Services - Availability Zone"
+            // Node representing the specific instance
+        deploymentNode "Passive" {
+            tags "Amazon Web Services - Aurora PostgreSQL Instance"
 
-                                // Database container instance goes here...
-                            }
-                        } // End AZ 2 (RDS)
-                    } // End Amazon RDS
+            // Database container instance goes here...
+        }
+    } // End AZ 2 (RDS)
+} // End Amazon RDS
 ```
 
 *   Again, `deploymentNode` nesting shows the structure: RDS Service > AZ > Specific DB Instance Node.
@@ -279,23 +277,23 @@ We model the RDS deployment similarly, showing the overall service and instances
 We map the logical database schema containers (`db1`, `db2`) to their respective RDS instance nodes using `containerInstance`.
 
 ```structurizr
-                                // Inside the "Active" RDS instance node
-                                deploymentNode "Active" {
-                                    tags "Amazon Web Services - Aurora PostgreSQL Instance"
+// Inside the "Active" RDS instance node
+deploymentNode "Active" {
+    tags "Amazon Web Services - Aurora PostgreSQL Instance"
 
-                                    // Instance of the logical db1 container schema
-                                    databaseInstance = containerInstance x.db1
-                                }
+    // Instance of the logical db1 container schema
+    databaseInstance = containerInstance x.db1
+}
 ```
 
 ```structurizr
-                                // Inside the "Passive" RDS instance node
-                                deploymentNode "Passive" {
-                                    tags "Amazon Web Services - Aurora PostgreSQL Instance"
+// Inside the "Passive" RDS instance node
+deploymentNode "Passive" {
+    tags "Amazon Web Services - Aurora PostgreSQL Instance"
 
-                                    // Instance of the logical db2 container schema
-                                    databaseInstance = containerInstance x.db2
-                                }
+    // Instance of the logical db2 container schema
+    databaseInstance = containerInstance x.db2
+}
 ```
 
 *   `containerInstance x.db1`: Deploys the `db1` schema onto the "Active" RDS node.
@@ -326,12 +324,12 @@ Here we specify *which* diagram we want to generate. We create a deployment view
 Finally, we include external styles and themes to make the diagram look good, often leveraging predefined AWS icons.
 
 ```structurizr
-        // Include custom styles (optional, could define styles inline)
-        !include styles.dsl
+    // Include custom styles (optional, could define styles inline)
+    !include styles.dsl
 
-        // Apply a predefined theme for AWS icons and colours
-        themes https://static.structurizr.com/themes/amazon-web-services-2023.01.31/theme.json
-    } // End Views
+    // Apply a predefined theme for AWS icons and colours
+    themes https://static.structurizr.com/themes/amazon-web-services-2023.01.31/theme.json
+} // End Views
 ```
 
 *   `!include`: Imports definitions from another DSL file (useful for sharing styles).
