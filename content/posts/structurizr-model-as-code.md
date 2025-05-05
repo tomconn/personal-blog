@@ -13,16 +13,16 @@ Tired of architecture diagrams that are perpetually out-of-date, inconsistent, o
 
 Before diving into the DSL, let's clarify some concepts:
 
-1.  **The C4 Model:** Created by Simon Brown, the [C4 model](https://c4model.com/) provides a simple, hierarchical way to think about and visualize software architecture at different levels of abstraction:
+* ***The C4 Model:** Created by Simon Brown, the [C4 model](https://c4model.com/) provides a simple, hierarchical way to think about and visualize software architecture at different levels of abstraction:
     *   **Level 1: System Context:** Shows your system in relation to users and other systems.
     *   **Level 2: Containers:** Zooms into your system, showing deployable/runnable units (web apps, APIs, databases, microservices).
     *   **Level 3: Components:** Zooms into a container, showing its internal code building blocks.
     *   **Level 4: Code:** (Optional) Zooms into a component, showing UML class diagrams, etc.
     Structurizr is primarily focused on Levels 1-3 and adds **Deployment diagrams** to show how containers map to infrastructure.
 
-2.  **Structurizr:** A collection of tools (libraries, DSL, web application) built around the C4 model. It allows you to define your architecture elements (Software Systems, Containers, Components, People, Deployment Nodes) and their relationships *once* in a central model. From this model, you can generate multiple views, including deployment diagrams.
+* **Structurizr:** A collection of tools (libraries, DSL, web application) built around the C4 model. It allows you to define your architecture elements (Software Systems, Containers, Components, People, Deployment Nodes) and their relationships *once* in a central model. From this model, you can generate multiple views, including deployment diagrams.
 
-3.  **How it Differs from Diagramming Tools:**
+* **How it Differs from Diagramming Tools:**
     *   **Model-Based vs. Drawing-Based:** Tools like Visio, Gliffy, or Excalidraw are essentially drawing tools. You draw boxes and lines, which have no inherent meaning beyond their visual representation. Structurizr is model-based; you define *elements* and *relationships*, and the tool *renders* views based on that underlying model.
     *   **Consistency:** Because all views derive from one model, they are inherently consistent. Changing an element name in the model updates it everywhere.
     *   **Version Control:** The DSL is plain text, perfect for Git. You can track changes, revert, branch, and collaborate just like code.
