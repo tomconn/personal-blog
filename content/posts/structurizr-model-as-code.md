@@ -37,6 +37,7 @@ Let's break down the provided Structurizr DSL example to see how we model an AWS
 
 We start by defining the workspace and setting an identifier strategy.
 
+
 ```javascript
 workspace "Amazon Web Services Example" "AWS deployment architecture." {
 
@@ -52,6 +53,7 @@ workspace "Amazon Web Services Example" "AWS deployment architecture." {
 }
 ```
 
+
 *   `workspace`: The top-level container for your model and views. It takes a name and optional description.
 *   `!identifiers hierarchical`: Tells Structurizr to generate identifiers based on the element's position in the hierarchy. This is useful for referring to elements later.
 *   `model {}`: The block where we define all the logical software elements and the deployment environments.
@@ -60,6 +62,7 @@ workspace "Amazon Web Services Example" "AWS deployment architecture." {
 **Stage 2: Defining the Logical Model (Software System & Containers)**
 
 Before modeling the deployment, we need a logical representation of the software being deployed. Here, we define a software system ("Reference") containing several containers (applications and database schemas).
+
 
 ```javascript
 x = softwaresystem "Reference" { // Define the overall software system
@@ -97,6 +100,7 @@ x = softwaresystem "Reference" { // Define the overall software system
 }
 ```
 
+
 *   `softwaresystem`: Represents the highest level of abstraction for the system we are modeling. We assign it to the variable `x` for easier reference.
 *   `container`: Represents a deployable/runnable unit within the software system (like a web app, API, database schema, microservice). We assign names like `db1`, `proxy1` for reference.
 *   `technology`: Specifies the technology used by the container.
@@ -106,6 +110,7 @@ x = softwaresystem "Reference" { // Define the overall software system
 **Stage 3: Defining the Deployment Environment**
 
 Now we define the target deployment environment ("Production") and start modeling the infrastructure hierarchy.
+
 
 ```javascript
 prod = deploymentEnvironment "Production" { // Define the environment
@@ -124,12 +129,14 @@ prod = deploymentEnvironment "Production" { // Define the environment
 } // End Deployment Environment
 ```
 
+
 *   `deploymentEnvironment`: A top-level element representing where the software is deployed (e.g., "Development", "Staging", "Production").
 *   `deploymentNode`: Represents a unit of infrastructure, like a physical server, virtual machine, container host (like an EC2 instance), or a logical grouping (like an AWS Region or Account). They can be nested to show hierarchy. We assign the region node to the variable `region`.
 
 **Stage 4: Modeling Core AWS Infrastructure (DNS, LB)**
 
 Inside the Region node, we define key infrastructure components like Route 53 and the NLB.
+
 
 ```javascript
 // Node representing DNS service
@@ -149,12 +156,14 @@ lb = infrastructureNode "Network Load Balancer" {
 }
 ```
 
+
 *   `infrastructureNode`: Represents supporting infrastructure that doesn't directly host containers but is part of the deployment environment (e.g., load balancers, DNS, firewalls, message queues).
 *   `this`: A keyword used within a node definition to refer to the node itself when defining relationships.
 
 **Stage 5: Modeling Compute (ASG, AZs, EC2, Pods)**
 
 We model the compute layer, nesting Availability Zones (AZs), EC2 instances, and conceptual "POD" nodes within an Auto Scaling Group.
+
 
 ```javascript
 // Node representing the Auto Scaling Group
@@ -197,11 +206,13 @@ deploymentNode "Autoscaling group" {
 } // End Autoscaling group
 ```
 
+
 *   Nesting `deploymentNode` clearly shows the hierarchy: ASG > AZ > EC2 > POD.
 
 **Stage 6: Deploying Container Instances (Applications)**
 
 This is the crucial step where we link the *logical* containers (from Stage 2) to the *physical* deployment nodes (from Stage 5). We use `containerInstance` to show *instances* of our application containers running within the PODs.
+
 
 ```javascript
 // Inside the first POD in AZ 1
@@ -218,6 +229,7 @@ deploymentNode "POD" {
 }
 ```
 
+
 ```javascript
 // Inside the second POD in AZ 2
 deploymentNode "POD" {
@@ -233,6 +245,7 @@ deploymentNode "POD" {
 }
 ```
 
+
 *   `containerInstance`: Represents an instance of a specific logical `container` running on a specific `deploymentNode`.
 *   `x.proxy1`, `x.wa1`, etc.: We use the hierarchical identifiers (enabled by `!identifiers hierarchical`) and the variable `x` (assigned to the software system) to refer back to the logical containers defined earlier.
 *   Relationships (`lb -> this`) now target these specific running instances.
@@ -240,6 +253,7 @@ deploymentNode "POD" {
 **Stage 7: Modeling the Database (RDS, Instances)**
 
 We model the RDS deployment similarly, showing the overall service and instances within different AZs for high availability.
+
 
 ```javascript
 // Node representing the RDS service/cluster
@@ -270,11 +284,13 @@ deploymentNode "Amazon RDS" {
 } // End Amazon RDS
 ```
 
+
 *   Again, `deploymentNode` nesting shows the structure: RDS Service > AZ > Specific DB Instance Node.
 
 **Stage 8: Deploying Database Container Instances**
 
 We map the logical database schema containers (`db1`, `db2`) to their respective RDS instance nodes using `containerInstance`.
+
 
 ```javascript
 // Inside the "Active" RDS instance node
@@ -286,6 +302,7 @@ deploymentNode "Active" {
 }
 ```
 
+
 ```javascript
 // Inside the "Passive" RDS instance node
 deploymentNode "Passive" {
@@ -296,12 +313,14 @@ deploymentNode "Passive" {
 }
 ```
 
+
 *   `containerInstance x.db1`: Deploys the `db1` schema onto the "Active" RDS node.
 *   `containerInstance x.db2`: Deploys the `db2` schema onto the "Passive" RDS node. (Note: The logical model showed `wa2` connecting to `db1`, so this mapping of `db2` might be an inconsistency in the original example DSL or represent a standby copy).
 
 **Stage 9: Defining the View**
 
 Here we specify *which* diagram we want to generate. We create a deployment view showing the "Reference" system (`x`) deployed into the "Production" environment (`prod`).
+
 
 ```javascript
     views {
@@ -315,6 +334,7 @@ Here we specify *which* diagram we want to generate. We create a deployment view
     }
 ```
 
+
 *   `deployment <Software System> <Deployment Environment> <Key>`: Defines a deployment view.
 *   `include *`: A simple way to include all elements from the specified environment and instances of the specified system. You can use more specific `include` or `exclude` rules.
 *   `autolayout tb`: Specifies the automatic layout direction (Top-Bottom). `lr` (Left-Right) is another common option.
@@ -322,6 +342,7 @@ Here we specify *which* diagram we want to generate. We create a deployment view
 **Stage 10: Styling and Themes**
 
 Finally, we include external styles and themes to make the diagram look good, often leveraging predefined AWS icons.
+
 
 ```javascript
     // Include custom styles (optional, could define styles inline)
@@ -331,6 +352,7 @@ Finally, we include external styles and themes to make the diagram look good, of
     themes https://static.structurizr.com/themes/amazon-web-services-2023.01.31/theme.json
 } // End Views
 ```
+
 
 *   `!include`: Imports definitions from another DSL file (useful for sharing styles).
 *   `themes`: Applies predefined visual styles (colors, icons, shapes) from a URL or local file. This uses the official AWS theme.
