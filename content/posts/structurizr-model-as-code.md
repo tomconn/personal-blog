@@ -37,7 +37,7 @@ Let's break down the provided Structurizr DSL example to see how we model an AWS
 
 We start by defining the workspace and setting an identifier strategy.
 
-```
+```bash
 workspace "Amazon Web Services Example" "AWS deployment architecture." {
 
     !identifiers hierarchical // Use hierarchical identifiers (e.g., system/container)
@@ -61,7 +61,7 @@ workspace "Amazon Web Services Example" "AWS deployment architecture." {
 
 Before modeling the deployment, we need a logical representation of the software being deployed. Here, we define a software system ("Reference") containing several containers (applications and database schemas).
 
-```
+```bash
 x = softwaresystem "Reference" { // Define the overall software system
 
     // Define logical containers within the system
@@ -107,7 +107,7 @@ x = softwaresystem "Reference" { // Define the overall software system
 
 Now we define the target deployment environment ("Production") and start modeling the infrastructure hierarchy.
 
-```
+```bash
 prod = deploymentEnvironment "Production" { // Define the environment
     // Top-level node representing the cloud provider
     deploymentNode "Amazon Web Services" {
@@ -131,7 +131,7 @@ prod = deploymentEnvironment "Production" { // Define the environment
 
 Inside the Region node, we define key infrastructure components like Route 53 and the NLB.
 
-```
+```bash
 // Node representing DNS service
 dns = infrastructureNode "DNS" {
     technology "Route 53"
@@ -156,7 +156,7 @@ lb = infrastructureNode "Network Load Balancer" {
 
 We model the compute layer, nesting Availability Zones (AZs), EC2 instances, and conceptual "POD" nodes within an Auto Scaling Group.
 
-```
+```bash
 // Node representing the Auto Scaling Group
 deploymentNode "Autoscaling group" {
     tags "Amazon Web Services - Auto Scaling"
@@ -203,7 +203,7 @@ deploymentNode "Autoscaling group" {
 
 This is the crucial step where we link the *logical* containers (from Stage 2) to the *physical* deployment nodes (from Stage 5). We use `containerInstance` to show *instances* of our application containers running within the PODs.
 
-```
+```bash
 // Inside the first POD in AZ 1
 deploymentNode "POD" {
     tags "Container"
@@ -218,7 +218,7 @@ deploymentNode "POD" {
 }
 ```
 
-```
+```bash
 // Inside the second POD in AZ 2
 deploymentNode "POD" {
     tags "Container"
@@ -241,7 +241,7 @@ deploymentNode "POD" {
 
 We model the RDS deployment similarly, showing the overall service and instances within different AZs for high availability.
 
-```
+```bash
 // Node representing the RDS service/cluster
 deploymentNode "Amazon RDS" {
     tags "Amazon Web Services - RDS"
@@ -276,7 +276,7 @@ deploymentNode "Amazon RDS" {
 
 We map the logical database schema containers (`db1`, `db2`) to their respective RDS instance nodes using `containerInstance`.
 
-```
+```bash
 // Inside the "Active" RDS instance node
 deploymentNode "Active" {
     tags "Amazon Web Services - Aurora PostgreSQL Instance"
@@ -286,7 +286,7 @@ deploymentNode "Active" {
 }
 ```
 
-```
+```bash
 // Inside the "Passive" RDS instance node
 deploymentNode "Passive" {
     tags "Amazon Web Services - Aurora PostgreSQL Instance"
@@ -303,7 +303,7 @@ deploymentNode "Passive" {
 
 Here we specify *which* diagram we want to generate. We create a deployment view showing the "Reference" system (`x`) deployed into the "Production" environment (`prod`).
 
-```
+```bash
     views {
         // Define a deployment view for system 'x' in environment 'prod'
         deployment x prod "AmazonWebServicesDeployment" {
@@ -323,7 +323,7 @@ Here we specify *which* diagram we want to generate. We create a deployment view
 
 Finally, we include external styles and themes to make the diagram look good, often leveraging predefined AWS icons.
 
-```
+```bash
     // Include custom styles (optional, could define styles inline)
     !include styles.dsl
 
