@@ -1,0 +1,52 @@
+{{- $src := .Destination -}}
+{{- $alt := .Text -}}
+{{- $title := .Title -}}
+{{- $loading := "lazy" -}}
+{{- $widths := (slice 480 768 1024 1200) -}} <!-- Default responsive widths -->
+{{- $image := "" -}}
+{{- if strings.HasPrefix $src "/" -}}
+{{- /* Image from /static or /assets, or an absolute URL / -}}
+{{- $assetPath := strings.TrimPrefix "/" $src -}}
+{{- if resources.GetMatch $assetPath -}}
+{{- $image = resources.GetMatch $assetPath -}}
+{{- else -}}
+{{- / It's likely a /static image or external, render as is or with basic responsive CSS / -}}
+<img src="{{ $src | safeURL }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}"{{ end }} loading="{{ $loading }}" style="max-width: 100%; height: auto;">
+{{- return -}}
+{{- end -}}
+{{- else -}}
+{{- / Image is likely a Page Resource (relative path) */ -}}
+{{- if .Page.Resources.GetMatch $src -}}
+{{- $image = .Page.Resources.GetMatch $src -}}
+{{- else -}}
+{{- warnf "Image not found for render-image hook: %s in page %s" $src .Page.Path -}}
+<img src="{{ $src | safeURL }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}"{{ end }} loading="{{ $loading }}"> <!-- Fallback for missing resource -->
+{{- return -}}
+{{- end -}}
+{{- end -}}
+{{- if $image -}}
+{{- $srcsetName := $image.Name -}}
+{{- $originalFormat := path.Ext $srcsetName | strings.TrimPrefix "." -}}
+{{- $webpFormat := "webp" -}}
+{{- $largestImage := $image.Resize (printf "%dx webp" (index (last 1 $widths) 0)) -}}
+<picture>
+{{- range $widths -}}
+{{- $resizedWebp := $image.Resize (printf "%dx%s q80" . $webpFormat) -}}
+<source srcset="{{ $resizedWebp.RelPermalink }}" type="image/webp" media="(max-width: {{ . }}px)">
+{{- end -}}
+{{- range $widths -}}
+{{- $resizedOriginal := $image.Resize (printf "%dx q85" .) -}}
+<source srcset="{{ $resizedOriginal.RelPermalink }}" type="image/{{ $originalFormat }}" media="(max-width: {{ . }}px)">
+{{- end -}}
+<img
+src="{{ $largestImage.RelPermalink }}"
+alt="{{ $alt }}"
+{{ with $title }}title="{{ . }}"{{ end }}
+width="{{ $largestImage.Width }}"
+height="{{ $largestImage.Height }}"
+loading="{{ $loading }}">
+</picture>
+{{- else -}}
+<!-- Fallback if $image somehow is not set after checks (should not happen if logic is correct) -->
+<img src="{{ $src | safeURL }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}"{{ end }} loading="{{ $loading }}">
+{{- end -}}
