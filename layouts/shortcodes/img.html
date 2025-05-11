@@ -13,19 +13,29 @@ $html
 {{- $widthsToUse := $defaultWidths -}}
 {{- if .IsNamedParams -}}
 {{- with .Get "widths" -}}
+{{- $rawWidthsParam := . -}}
 {{- $parsedWidths := slice -}}
-{{- range $wStr := . | split "," -}}
-{{- $trimmedWStr := trim $wStr " \n\t\r" -}}
-{{- if $trimmedWStr -}}
-{{- $wInt := $trimmedWStr | int -}}
-{{- if gt $wInt 0 -}}
-{{- $parsedWidths = $parsedWidths | append $wInt -}}
+{{- range $wStrRaw := $rawWidthsParam | split "," -}}
+{{- $wStrProcessed := trim $wStrRaw " \n\t\r" -}}
+{{- if and $wStrProcessed (ne $wStrProcessed ",") -}}
+{{- $wInt := 0 -}}
+{{- $validInt := true -}}
+{{- with $wStrProcessed | int -}}
+{{- $wInt = . -}}
+{{- else -}}
+{{- $validInt = false -}}
+{{- warnf "Image shortcode: Could not parse '%s' from widths string '%s' to an integer in page '%s'." $wStrProcessed $rawWidthsParam $.Page.Path -}}
 {{- end -}}
-{{- end -}}
-{{- end -}}
-{{- if gt (len $parsedWidths) 0 -}}
-{{- $widthsToUse = $parsedWidths | sort -}}
-{{- end -}}
+{{- if and $validInt (gt $wInt 0) -}}
+                {{- $parsedWidths = $parsedWidths | append $wInt -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+    {{- if gt (len $parsedWidths) 0 -}}
+        {{- $widthsToUse = $parsedWidths | sort -}}
+    {{- else -}}
+        {{- warnf "Image shortcode: No valid widths parsed from '%s' in page '%s'. Using defaults." $rawWidthsParam $.Page.Path -}}
+    {{- end -}}
 {{- end -}}
 {{- end -}}
 {{- $originalFormat := path.Ext $image.Name | strings.TrimPrefix "." -}}
