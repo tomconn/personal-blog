@@ -28,7 +28,7 @@ $html
 {{- $originalFormat := path.Ext $image.Name | strings.TrimPrefix "." -}}
 {{- $webpFormat := "webp" -}}
 {{- $largestWidth := index (last 1 $widthsToUse) 0 -}}
-{{- $fallbackImage := $image.Resize (printf "%dx%s q75" $largestWidth $webpFormat) -}}
+{{- $fallbackImage := $image.Resize (printf "%dx %s q75" $largestWidth $webpFormat) -}}
 {{- if eq $originalFormat "svg" -}}{{- $fallbackImage = $image -}}{{- end -}} {{/* Don't resize SVGs */}}
 <picture>
 {{- if ne $originalFormat "svg" -}}
