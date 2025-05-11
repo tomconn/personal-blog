@@ -9,7 +9,6 @@ $html
 <p style="color: red;">ERROR: Image '{{ $src }}' not found!</p>
 {{- return -}}
 {{- end -}}
-{{-/* Define default widths or get from shortcode param */-}}
 {{- $defaultWidths := (slice 400 800 1200) -}}
 {{- $widthsToUse := $defaultWidths -}}
 {{- if .IsNamedParams -}}
