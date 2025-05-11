@@ -3,7 +3,6 @@ $html
 {{- $alt := .Get "alt" | default $src -}}
 {{- $class := .Get "class" -}}
 {{- $loading := .Get "loading" | default "lazy" -}}
-{{-/* Find the image within the current page's resources */-}}
 {{- $image := .Page.Resources.GetMatch $src -}}
 {{- if not $image -}}
 {{- warnf "Image shortcode: Resource '%s' not found in page '%s'." $src .Page.Path -}}
@@ -29,13 +28,11 @@ $html
 {{- end -}}
 {{- $originalFormat := path.Ext $image.Name | strings.TrimPrefix "." -}}
 {{- $webpFormat := "webp" -}}
-{{-/* For the fallback <img>, use the largest defined width in WebP format /-}}
 {{- $largestWidth := index (last 1 $widthsToUse) 0 -}}
 {{- $fallbackImage := $image.Resize (printf "%dx%s q75" $largestWidth $webpFormat) -}}
 {{- if eq $originalFormat "svg" -}}{{- $fallbackImage = $image -}}{{- end -}} {{/ Don't resize SVGs */}}
 <picture>
 {{- if ne $originalFormat "svg" -}}
-{{-/* WebP sources */-}}
 {{- $srcsetsWebP := slice -}}
 {{- range $widthsToUse -}}
 {{- $resized := $image.Resize (printf "%dx%s q75" . $webpFormat) -}}
@@ -43,7 +40,6 @@ $html
 {{- end -}}
 <source type="image/webp" srcset="{{ delimit $srcsetsWebP ", " }}">
 {{- end -}}
-{{-/* Original format sources (if not already WebP or SVG) */-}}
 {{- if and (ne $originalFormat $webpFormat) (ne $originalFormat "svg") -}}
     {{- $srcsetsOriginal := slice -}}
     {{- range $widthsToUse -}}
@@ -53,7 +49,6 @@ $html
     <source type="image/{{ $originalFormat }}" srcset="{{ delimit $srcsetsOriginal ", " }}">
 {{- end -}}
 
-{{-/* Fallback <img> tag */-}}
 <img
     src="{{ $fallbackImage.RelPermalink }}"
     alt="{{ $alt }}"
