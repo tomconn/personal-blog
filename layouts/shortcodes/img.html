@@ -11,62 +11,61 @@ $html
 {{- end -}}
 {{- $defaultWidths := (slice 400 800 1200) -}}
 {{- $widthsToUse := $defaultWidths -}}
+{{- $rawWidthsParam := "" -}} {{/* Initialize */}}
 {{- if .IsNamedParams -}}
 {{- with .Get "widths" -}}
-{{- $rawWidthsParam := . -}}
-{{- $parsedWidths := slice -}}
-{{- range $wStrRaw := $rawWidthsParam | split "," -}}
+{{- $rawWidthsParam = . -}} {{/* Store for logging /}}
+{{- $tempParsedWidths := slice -}}
+{{- range $i, $wStrRaw := $rawWidthsParam | split "," -}}
 {{- $wStrProcessed := trim $wStrRaw " \n\t\r" -}}
-{{- if and $wStrProcessed (ne $wStrProcessed ",") -}}
-{{- $wInt := 0 -}}
-{{- $validInt := true -}}
-{{- with $wStrProcessed | int -}}
-{{- $wInt = . -}}
+{{- if $wStrProcessed -}} {{/ Ensure it's not an empty string after trim /}}
+{{- $wInt := false -}} {{/ Initialize to false or a non-numeric type /}}
+{{- $currentWInt := 0 -}}
+{{- if strings.IsNumber $wStrProcessed -}} {{/ Check if it's a number string /}}
+{{- $currentWInt = $wStrProcessed | int -}}
+{{- if gt $currentWInt 0 -}}
+{{- $tempParsedWidths = $tempParsedWidths | append $currentWInt -}}
+{{- end -}}
 {{- else -}}
-{{- $validInt = false -}}
-{{- warnf "Image shortcode: Could not parse '%s' from widths string '%s' to an integer in page '%s'." $wStrProcessed $rawWidthsParam $.Page.Path -}}
-{{- end -}}
-{{- if and $validInt (gt $wInt 0) -}}
-{{- $parsedWidths = $parsedWidths | append $wInt -}}
+{{- warnf "Image shortcode: Width parsing - value '%s' (from '%s') is not a valid number. Page: %s" $wStrProcessed $rawWidthsParam $.Page.Path -}}
 {{- end -}}
 {{- end -}}
 {{- end -}}
-{{- if gt (len $parsedWidths) 0 -}}
-{{- $widthsToUse = $parsedWidths | sort -}}
+{{- if gt (len $tempParsedWidths) 0 -}}
+{{- $widthsToUse = $tempParsedWidths | sort -}}
 {{- else -}}
-{{- warnf "Image shortcode: No valid widths parsed from '%s' in page '%s'. Using defaults." $rawWidthsParam $.Page.Path -}}
+{{- if $rawWidthsParam -}} {{/ Only warn if widths were actually provided */}}
+{{- warnf "Image shortcode: No valid widths parsed from input '%s' in page '%s'. Using defaults." $rawWidthsParam $.Page.Path -}}
+{{- end -}}
 {{- end -}}
 {{- end -}}
 {{- end -}}
 {{- $originalFormat := path.Ext $image.Name | strings.TrimPrefix "." -}}
 {{- $webpFormat := "webp" -}}
 {{- $originalImageWidth := $image.Width -}}
-{{- define "generateResizeOptions" -}}
-{{- $targetWidth := .targetWidth -}}
-{{- $currentImageWidth := .currentImageWidth -}}
-{{- $format := .format -}}
-{{- $quality := .quality -}}
-{{- $options := "" -}}
-{{- if gt $targetWidth $currentImageWidth -}}
-{{- $options = printf "%dx %s q%d" $currentImageWidth $format $quality -}}
-{{- else -}}
-{{- $options = printf "%dx %s q%d" $targetWidth $format $quality -}}
-{{- end -}}
-{{- return $options -}}
-{{- end -}}
+{{-/* Determine fallback image (largest WebP, no upscale) */-}}
 {{- $largestWidthForFallback := index (last 1 $widthsToUse) 0 -}}
-{{- $fallbackImageOptionsArgs := dict "targetWidth" $largestWidthForFallback "currentImageWidth" $originalImageWidth "format" $webpFormat "quality" 75 -}}
-{{- $fallbackImageOptions := partial "generateResizeOptions" $fallbackImageOptionsArgs -}}
-{{- $fallbackImage := $image.Resize $fallbackImageOptions -}}
+{{- $fallbackResizeOptions := "" -}}
+{{- if gt $largestWidthForFallback $originalImageWidth -}}
+{{- $fallbackResizeOptions = printf "%dx %s q75" $originalImageWidth $webpFormat -}}
+{{- else -}}
+{{- $fallbackResizeOptions = printf "%dx %s q75" $largestWidthForFallback $webpFormat -}}
+{{- end -}}
+{{- $fallbackImage := $image.Resize $fallbackResizeOptions -}}
 {{- if eq $originalFormat "svg" -}}{{- $fallbackImage = $image -}}{{- end -}}
-{{- $contentMaxWidth := 800 -}}
+{{- $contentMaxWidth := 800 -}} {{/* ADJUST THIS to your actual content column max width */}}
 {{- $sizesAttr := printf "(max-width: %dpx) 100vw, %dpx" $contentMaxWidth $contentMaxWidth -}}
 <picture>
 {{- if ne $originalFormat "svg" -}}
 {{- $srcsetsWebP := slice -}}
 {{- range $widthsToUse -}}
-{{- $webpArgs := dict "targetWidth" . "currentImageWidth" $originalImageWidth "format" $webpFormat "quality" 75 -}}
-{{- $webpOptions := partial "generateResizeOptions" $webpArgs -}}
+{{- $targetW := . -}}
+{{- $webpOptions := "" -}}
+{{- if gt $targetW $originalImageWidth -}}
+{{- $webpOptions = printf "%dx %s q75" $originalImageWidth $webpFormat -}}
+{{- else -}}
+{{- $webpOptions = printf "%dx %s q75" $targetW $webpFormat -}}
+{{- end -}}
 {{- $resized := $image.Resize $webpOptions -}}
 {{- $srcsetsWebP = $srcsetsWebP | append (printf "%s %dw" $resized.RelPermalink .) -}}
 {{- end -}}
@@ -75,14 +74,14 @@ $html
 {{- if and (ne $originalFormat $webpFormat) (ne $originalFormat "svg") -}}
     {{- $srcsetsOriginal := slice -}}
     {{- range $widthsToUse -}}
-        {{- $originalArgs := dict "targetWidth" . "currentImageWidth" $originalImageWidth "format" $originalFormat "quality" 80 -}}
-        {{- $originalResizeOptions := "" -}}
-        {{- if gt . $originalImageWidth -}}
-            {{- $originalResizeOptions = printf "%dx q%d" $originalImageWidth 80 -}}
+        {{- $targetW := . -}}
+        {{- $originalOpts := "" -}}
+        {{- if gt $targetW $originalImageWidth -}}
+            {{- $originalOpts = printf "%dx q80" $originalImageWidth -}}
         {{- else -}}
-            {{- $originalResizeOptions = printf "%dx q%d" . 80 -}}
+            {{- $originalOpts = printf "%dx q80" $targetW -}}
         {{- end -}}
-        {{- $resized := $image.Resize $originalResizeOptions -}}
+        {{- $resized := $image.Resize $originalOpts -}}
         {{- $srcsetsOriginal = $srcsetsOriginal | append (printf "%s %dw" $resized.RelPermalink .) -}}
     {{- end -}}
     <source type="image/{{ $originalFormat }}" srcset="{{ delimit $srcsetsOriginal ", " }}" sizes="{{ $sizesAttr }}">
@@ -95,5 +94,6 @@ $html
     width="{{ $fallbackImage.Width }}"
     height="{{ $fallbackImage.Height }}"
     loading="{{ $loading }}"
-    sizes="{{ $sizesAttr }}"> {{/* sizes also on img for browsers not supporting picture */}}
+    sizes="{{ $sizesAttr }}">
+
 </picture>
