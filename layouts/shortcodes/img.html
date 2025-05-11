@@ -18,23 +18,16 @@ $html
 {{- $tempParsedWidths := slice -}}
 {{- range $wStrRaw := $rawWidthsParam | split "," -}}
 {{- $wStrProcessed := trim $wStrRaw " \n\t\r" -}}
-{{-/* Only proceed if the string is not empty AND not just a comma */-}}
-{{- if and $wStrProcessed (ne $wStrProcessed ",") -}}
-{{- $currentWInt := 0 -}}
-{{- $conversionSuccess := false -}}
-{{- with $wStrProcessed | int -}}
-{{- $currentWInt = . -}}
-{{- $conversionSuccess = true -}}
+{{- if $wStrProcessed -}} {{/* Must not be empty after trim /}}
+{{- 
+` $wStrProcessed -}} {{/ Check if it's ONLY digits */}}
+{{- $num = $wStrProcessed | int -}}
 {{- end -}}
-{{- if $conversionSuccess -}}
-                {{- if gt $currentWInt 0 -}}
-                    {{- $tempParsedWidths = $tempParsedWidths | append $currentWInt -}}
-                {{- end -}}
-            {{- else -}}
-                {{- warnf "Image shortcode: Width parsing - value '%s' (from '%s') is not a valid number. Page: %s" $wStrProcessed $rawWidthsParam $.Page.Path -}}
+{{- if and (ne $num false) (gt $num 0) -}}
+                {{- $tempParsedWidths = $tempParsedWidths | append $num -}}
+            {{- else if $wStrProcessed -}} {{/* If it was processed but didn't become a valid positive int */}}
+                {{- warnf "Image shortcode: Width parsing - Ignoring invalid segment '%s' (from '%s'). Page: %s" $wStrProcessed $rawWidthsParam $.Page.Path -}}
             {{- end -}}
-        {{- else if $wStrProcessed -}} {{/* Catches the case where it IS just a comma (and not empty) */}}
-            {{- warnf "Image shortcode: Width parsing - ignoring lone comma or invalid segment '%s' (from '%s'). Page: %s" $wStrProcessed $rawWidthsParam $.Page.Path -}}
         {{- end -}}
     {{- end -}}
 
