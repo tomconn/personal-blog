@@ -15,7 +15,7 @@ $html
 {{- with .Get "widths" -}}
 {{- $parsedWidths := slice -}}
 {{- range $wStr := . | split "," -}}
-{{- $trimmedWStr := $wStr | strings.TrimSpace -}}
+{{- $trimmedWStr := strings.TrimSpace $wStr -}}
 {{- if $trimmedWStr -}}
 {{- $wInt := $trimmedWStr | int -}}
 {{- if gt $wInt 0 -}}
@@ -61,3 +61,4 @@ $html
     width="{{ $fallbackImage.Width }}"
     height="{{ $fallbackImage.Height }}"
     loading="{{ $loading }}">
+</picture>
