@@ -34,7 +34,7 @@ $html
 {{- if ne $originalFormat "svg" -}}
 {{- $srcsetsWebP := slice -}}
 {{- range $widthsToUse -}}
-{{- $resized := $image.Resize (printf "%dx%s q75" . $webpFormat) -}}
+{{- $resized := $image.Resize (printf "%dx %s q75" . $webpFormat) -}}
 {{- $srcsetsWebP = $srcsetsWebP | append (printf "%s %dw" $resized.RelPermalink .) -}}
 {{- end -}}
 <source type="image/webp" srcset="{{ delimit $srcsetsWebP ", " }}">
