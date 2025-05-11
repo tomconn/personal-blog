@@ -19,28 +19,31 @@ $html
 {{- range $wStrRaw := $rawWidthsParam | split "," -}}
 {{- $wStrProcessed := trim $wStrRaw " \n\t\r" -}}
 {{- if $wStrProcessed -}}
-{{- $numCheck := $wStrProcessed | int (default false) -}}
-{{- if ne $numCheck false -}}
-{{- if gt $numCheck 0 -}}
-{{- $tempParsedWidths = $tempParsedWidths | append $numCheck -}}
+{{- $currentWInt := 0 -}}
+{{- $conversionSuccess := false -}}
+{{- with $wStrProcessed | int -}}
+{{- $currentWInt = . -}}
+{{- $conversionSuccess = true -}}
 {{- end -}}
-{{- else -}}
-{{- if $wStrProcessed -}}
-{{- warnf "Image shortcode: Width parsing - value '%s' (from '%s') is not a valid number. Page: %s" $wStrProcessed $rawWidthsParam $.Page.Path -}}
-{{- end -}}
-{{- end -}}
-{{- end -}}
-{{- end -}} {/* End of range $wStrRaw */}
-{{- if gt (len $tempParsedWidths) 0 -}}
+{{- if $conversionSuccess -}}
+                {{- if gt $currentWInt 0 -}}
+                    {{- $tempParsedWidths = $tempParsedWidths | append $currentWInt -}}
+                {{- end -}}
+            {{- else -}}
+                {{- warnf "Image shortcode: Width parsing - value '%s' (from '%s') is not a valid number. Page: %s" $wStrProcessed $rawWidthsParam $.Page.Path -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+
+    {{- if gt (len $tempParsedWidths) 0 -}}
         {{- $widthsToUse = $tempParsedWidths | sort -}}
     {{- else -}}
         {{- if $rawWidthsParam -}}
             {{- warnf "Image shortcode: No valid widths parsed from input '%s' in page '%s'. Using defaults." $rawWidthsParam $.Page.Path -}}
         {{- end -}}
     {{- end -}}
-{{- end -}} {/* End of with .Get "widths" */}
-Use code with caution.
-{{- end -}} {/* End of if .IsNamedParams */}
+{{- end -}}
+{{- end -}}
 {{- $originalFormat := path.Ext $image.Name | strings.TrimPrefix "." -}}
 {{- $webpFormat := "webp" -}}
 {{- $originalImageWidth := $image.Width -}}
@@ -92,7 +95,7 @@ Use code with caution.
     alt="{{ $alt }}"
     {{- with $class }} class="{{ . }}"{{ end -}}
     width="{{ $fallbackImage.Width }}"
-    height="{{ $fallbackImage.Height }}"
+    height="{{ $fallbackMage.Height }}"
     loading="{{ $loading }}"
     sizes="{{ $sizesAttr }}">
 </picture>
