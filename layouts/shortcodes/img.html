@@ -1,11 +1,4 @@
 $html
-{{-/*
-layouts/shortcodes/img.html
-A simple shortcode for responsive images from Page Resources.
-Usage: {{</* img src="image-filename.jpg" alt="Alt text" />}}
-{{</ img src="image.png" alt="Alt" class="my-class" />}}
-{{</ img src="image.png" alt="Alt" widths="300,600,900" */>}}
-*/-}}
 {{- $src := .Get "src" -}}
 {{- $alt := .Get "alt" | default $src -}}
 {{- $class := .Get "class" -}}
