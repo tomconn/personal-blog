@@ -11,39 +11,39 @@ $html
 {{- end -}}
 {{- $defaultWidths := (slice 400 800 1200) -}}
 {{- $widthsToUse := $defaultWidths -}}
-{{- $rawWidthsParam := "" -}} {{/* Initialize */}}
+{{- $rawWidthsParam := "" -}}
 {{- if .IsNamedParams -}}
 {{- with .Get "widths" -}}
-{{- $rawWidthsParam = . -}} {{/* Store for logging /}}
+{{- $rawWidthsParam = . -}}
 {{- $tempParsedWidths := slice -}}
-{{- range $i, $wStrRaw := $rawWidthsParam | split "," -}}
+{{- range $wStrRaw := $rawWidthsParam | split "," -}}
 {{- $wStrProcessed := trim $wStrRaw " \n\t\r" -}}
-{{- if $wStrProcessed -}} 
-{{- $wInt := false -}} 
-{{- $currentWInt := 0 -}}
-{{- if strings.IsNumber $wStrProcessed -}} 
-{{- $currentWInt = $wStrProcessed | int -}}
-{{- if gt $currentWInt 0 -}}
-{{- $tempParsedWidths = $tempParsedWidths | append $currentWInt -}}
+{{- if $wStrProcessed -}}
+{{- $numCheck := $wStrProcessed | int (default false) -}}
+{{- if ne $numCheck false -}}
+{{- if gt $numCheck 0 -}}
+{{- $tempParsedWidths = $tempParsedWidths | append $numCheck -}}
 {{- end -}}
 {{- else -}}
+{{- if $wStrProcessed -}}
 {{- warnf "Image shortcode: Width parsing - value '%s' (from '%s') is not a valid number. Page: %s" $wStrProcessed $rawWidthsParam $.Page.Path -}}
 {{- end -}}
 {{- end -}}
 {{- end -}}
+{{- end -}} {/* End of range $wStrRaw */}
 {{- if gt (len $tempParsedWidths) 0 -}}
-{{- $widthsToUse = $tempParsedWidths | sort -}}
-{{- else -}}
-{{- if $rawWidthsParam -}} {{/ Only warn if widths were actually provided */}}
-{{- warnf "Image shortcode: No valid widths parsed from input '%s' in page '%s'. Using defaults." $rawWidthsParam $.Page.Path -}}
-{{- end -}}
-{{- end -}}
-{{- end -}}
-{{- end -}}
+        {{- $widthsToUse = $tempParsedWidths | sort -}}
+    {{- else -}}
+        {{- if $rawWidthsParam -}}
+            {{- warnf "Image shortcode: No valid widths parsed from input '%s' in page '%s'. Using defaults." $rawWidthsParam $.Page.Path -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}} {/* End of with .Get "widths" */}
+Use code with caution.
+{{- end -}} {/* End of if .IsNamedParams */}
 {{- $originalFormat := path.Ext $image.Name | strings.TrimPrefix "." -}}
 {{- $webpFormat := "webp" -}}
 {{- $originalImageWidth := $image.Width -}}
-{{-/* Determine fallback image (largest WebP, no upscale) */-}}
 {{- $largestWidthForFallback := index (last 1 $widthsToUse) 0 -}}
 {{- $fallbackResizeOptions := "" -}}
 {{- if gt $largestWidthForFallback $originalImageWidth -}}
@@ -53,7 +53,7 @@ $html
 {{- end -}}
 {{- $fallbackImage := $image.Resize $fallbackResizeOptions -}}
 {{- if eq $originalFormat "svg" -}}{{- $fallbackImage = $image -}}{{- end -}}
-{{- $contentMaxWidth := 800 -}} {{/* ADJUST THIS to your actual content column max width */}}
+{{- $contentMaxWidth := 800 -}}
 {{- $sizesAttr := printf "(max-width: %dpx) 100vw, %dpx" $contentMaxWidth $contentMaxWidth -}}
 <picture>
 {{- if ne $originalFormat "svg" -}}
@@ -95,5 +95,4 @@ $html
     height="{{ $fallbackImage.Height }}"
     loading="{{ $loading }}"
     sizes="{{ $sizesAttr }}">
-
 </picture>
