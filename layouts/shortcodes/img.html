@@ -1,0 +1,71 @@
+$html
+{{-/*
+layouts/shortcodes/img.html
+A simple shortcode for responsive images from Page Resources.
+Usage: {{</* img src="image-filename.jpg" alt="Alt text" />}}
+{{</ img src="image.png" alt="Alt" class="my-class" />}}
+{{</ img src="image.png" alt="Alt" widths="300,600,900" */>}}
+*/-}}
+{{- $src := .Get "src" -}}
+{{- $alt := .Get "alt" | default $src -}}
+{{- $class := .Get "class" -}}
+{{- $loading := .Get "loading" | default "lazy" -}}
+{{-/* Find the image within the current page's resources */-}}
+{{- $image := .Page.Resources.GetMatch $src -}}
+{{- if not $image -}}
+{{- warnf "Image shortcode: Resource '%s' not found in page '%s'." $src .Page.Path -}}
+<p style="color: red;">ERROR: Image '{{ $src }}' not found!</p>
+{{- return -}}
+{{- end -}}
+{{-/* Define default widths or get from shortcode param */-}}
+{{- $defaultWidths := (slice 400 800 1200) -}}
+{{- $widthsToUse := $defaultWidths -}}
+{{- if .IsNamedParams -}}
+{{- with .Get "widths" -}}
+{{- $parsedWidths := slice -}}
+{{- range $wStr := . | split "," -}}
+{{- $wInt := $wStr | trim | int -}}
+{{- if gt $wInt 0 -}}
+{{- $parsedWidths = $parsedWidths | append $wInt -}}
+{{- end -}}
+{{- end -}}
+{{- if gt (len $parsedWidths) 0 -}}
+{{- $widthsToUse = $parsedWidths | sort -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+{{- $originalFormat := path.Ext $image.Name | strings.TrimPrefix "." -}}
+{{- $webpFormat := "webp" -}}
+{{-/* For the fallback <img>, use the largest defined width in WebP format /-}}
+{{- $largestWidth := index (last 1 $widthsToUse) 0 -}}
+{{- $fallbackImage := $image.Resize (printf "%dx%s q75" $largestWidth $webpFormat) -}}
+{{- if eq $originalFormat "svg" -}}{{- $fallbackImage = $image -}}{{- end -}} {{/ Don't resize SVGs */}}
+<picture>
+{{- if ne $originalFormat "svg" -}}
+{{-/* WebP sources */-}}
+{{- $srcsetsWebP := slice -}}
+{{- range $widthsToUse -}}
+{{- $resized := $image.Resize (printf "%dx%s q75" . $webpFormat) -}}
+{{- $srcsetsWebP = $srcsetsWebP | append (printf "%s %dw" $resized.RelPermalink .) -}}
+{{- end -}}
+<source type="image/webp" srcset="{{ delimit $srcsetsWebP ", " }}">
+{{- end -}}
+{{-/* Original format sources (if not already WebP or SVG) */-}}
+{{- if and (ne $originalFormat $webpFormat) (ne $originalFormat "svg") -}}
+    {{- $srcsetsOriginal := slice -}}
+    {{- range $widthsToUse -}}
+        {{- $resized := $image.Resize (printf "%dx q80" .) -}}
+        {{- $srcsetsOriginal = $srcsetsOriginal | append (printf "%s %dw" $resized.RelPermalink .) -}}
+    {{- end -}}
+    <source type="image/{{ $originalFormat }}" srcset="{{ delimit $srcsetsOriginal ", " }}">
+{{- end -}}
+
+{{-/* Fallback <img> tag */-}}
+<img
+    src="{{ $fallbackImage.RelPermalink }}"
+    alt="{{ $alt }}"
+    {{- with $class }} class="{{ . }}"{{ end -}}
+    width="{{ $fallbackImage.Width }}"
+    height="{{ $fallbackImage.Height }}"
+    loading="{{ $loading }}">
+</picture>
