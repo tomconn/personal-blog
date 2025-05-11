@@ -52,10 +52,8 @@ $html
 {{- $currentImageWidth := $image.Width -}}
 {{- $resizeOptions := "" -}}
 {{- if gt $targetWidth $currentImageWidth -}}
-{{-/* Target width is larger than original: just convert format, don't upscale width beyond original /-}}
 {{- $resizeOptions = printf "%dx %s q75" $currentImageWidth $webpFormat -}}
 {{- else -}}
-{{-/ Target width is smaller or equal: resize to target width */-}}
 {{- $resizeOptions = printf "%dx %s q75" $targetWidth $webpFormat -}}
 {{- end -}}
 {{- $resized := $image.Resize $resizeOptions -}}
