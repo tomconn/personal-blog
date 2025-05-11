@@ -16,10 +16,11 @@ $html
 {{- $parsedWidths := slice -}}
 {{- range $wStr := . | split "," -}}
 {{- $trimmedWStr := $wStr | strings.TrimSpace -}}
-{{- if $trimmedWStr -}} {{/* Process only if the trimmed string is not empty */}}
+{{- if $trimmedWStr -}}
 {{- $wInt := $trimmedWStr | int -}}
 {{- if gt $wInt 0 -}}
 {{- $parsedWidths = $parsedWidths | append $wInt -}}
+{{- end -}}
 {{- end -}}
 {{- end -}}
 {{- if gt (len $parsedWidths) 0 -}}
@@ -30,13 +31,15 @@ $html
 {{- $originalFormat := path.Ext $image.Name | strings.TrimPrefix "." -}}
 {{- $webpFormat := "webp" -}}
 {{- $largestWidth := index (last 1 $widthsToUse) 0 -}}
-{{- $fallbackImage := $image.Resize (printf "%dx %s q75" $largestWidth $webpFormat) -}}
-{{- if eq $originalFormat "svg" -}}{{- $fallbackImage = $image -}}{{- end -}} {{/* Don't resize SVGs */}}
+{{- $fallbackImageOptions := printf "%dx %s q75" $largestWidth $webpFormat -}}
+{{- $fallbackImage := $image.Resize $fallbackImageOptions -}}
+{{- if eq $originalFormat "svg" -}}{{- $fallbackImage = $image -}}{{- end -}}
 <picture>
 {{- if ne $originalFormat "svg" -}}
 {{- $srcsetsWebP := slice -}}
 {{- range $widthsToUse -}}
-{{- $resized := $image.Resize (printf "%dx %s q75" . $webpFormat) -}}
+{{- $webpOptions := printf "%dx %s q75" . $webpFormat -}}
+{{- $resized := $image.Resize $webpOptions -}}
 {{- $srcsetsWebP = $srcsetsWebP | append (printf "%s %dw" $resized.RelPermalink .) -}}
 {{- end -}}
 <source type="image/webp" srcset="{{ delimit $srcsetsWebP ", " }}">
@@ -44,7 +47,8 @@ $html
 {{- if and (ne $originalFormat $webpFormat) (ne $originalFormat "svg") -}}
     {{- $srcsetsOriginal := slice -}}
     {{- range $widthsToUse -}}
-        {{- $resized := $image.Resize (printf "%dx q80" .) -}}
+        {{- $originalOptions := printf "%dx q80" . -}}
+        {{- $resized := $image.Resize $originalOptions -}}
         {{- $srcsetsOriginal = $srcsetsOriginal | append (printf "%s %dw" $resized.RelPermalink .) -}}
     {{- end -}}
     <source type="image/{{ $originalFormat }}" srcset="{{ delimit $srcsetsOriginal ", " }}">
@@ -57,4 +61,3 @@ $html
     width="{{ $fallbackImage.Width }}"
     height="{{ $fallbackImage.Height }}"
     loading="{{ $loading }}">
-</picture>
