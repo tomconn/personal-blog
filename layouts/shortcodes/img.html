@@ -15,7 +15,7 @@ $html
 {{- with .Get "widths" -}}
 {{- $parsedWidths := slice -}}
 {{- range $wStr := . | split "," -}}
-{{- $wInt := $wStr | trim "\n\t\r " | int -}}
+{{- $wInt := $wStr | trim " " | int -}}
 {{- if gt $wInt 0 -}}
 {{- $parsedWidths = $parsedWidths | append $wInt -}}
 {{- end -}}
