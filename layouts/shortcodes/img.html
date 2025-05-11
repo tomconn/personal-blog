@@ -18,10 +18,10 @@ $html
 {{- $tempParsedWidths := slice -}}
 {{- range $i, $wStrRaw := $rawWidthsParam | split "," -}}
 {{- $wStrProcessed := trim $wStrRaw " \n\t\r" -}}
-{{- if $wStrProcessed -}} {{/ Ensure it's not an empty string after trim /}}
-{{- $wInt := false -}} {{/ Initialize to false or a non-numeric type /}}
+{{- if $wStrProcessed -}} 
+{{- $wInt := false -}} 
 {{- $currentWInt := 0 -}}
-{{- if strings.IsNumber $wStrProcessed -}} {{/ Check if it's a number string /}}
+{{- if strings.IsNumber $wStrProcessed -}} 
 {{- $currentWInt = $wStrProcessed | int -}}
 {{- if gt $currentWInt 0 -}}
 {{- $tempParsedWidths = $tempParsedWidths | append $currentWInt -}}
