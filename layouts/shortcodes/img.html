@@ -18,20 +18,17 @@ $html
 {{- $tempParsedWidths := slice -}}
 {{- range $wStrRaw := $rawWidthsParam | split "," -}}
 {{- $wStrProcessed := trim $wStrRaw " \n\t\r" -}}
-{{- if $wStrProcessed -}} {{/* Must not be empty after trim /}}
-{{- 
-` $wStrProcessed -}} {{/ Check if it's ONLY digits */}}
-{{- $num = $wStrProcessed | int -}}
+{{- if and $wStrProcessed (ne $wStrProcessed ",") -}}
+{{- with $wStrProcessed | int -}}
+{{- if gt . 0 -}}
+{{- $tempParsedWidths = $tempParsedWidths | append . -}}
 {{- end -}}
-{{- if and (ne $num false) (gt $num 0) -}}
-                {{- $tempParsedWidths = $tempParsedWidths | append $num -}}
-            {{- else if $wStrProcessed -}} {{/* If it was processed but didn't become a valid positive int */}}
-                {{- warnf "Image shortcode: Width parsing - Ignoring invalid segment '%s' (from '%s'). Page: %s" $wStrProcessed $rawWidthsParam $.Page.Path -}}
-            {{- end -}}
-        {{- end -}}
-    {{- end -}}
-
-    {{- if gt (len $tempParsedWidths) 0 -}}
+{{- else -}}
+{{- warnf "Image shortcode: Width parsing - value '%s' (from '%s') is not a valid number. Page: %s" $wStrProcessed $rawWidthsParam $.Page.Path -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+{{- if gt (len $tempParsedWidths) 0 -}}
         {{- $widthsToUse = $tempParsedWidths | sort -}}
     {{- else -}}
         {{- if $rawWidthsParam -}}
