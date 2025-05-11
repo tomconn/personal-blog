@@ -48,8 +48,17 @@ $html
 {{- if ne $originalFormat "svg" -}}
 {{- $srcsetsWebP := slice -}}
 {{- range $widthsToUse -}}
-{{- $webpOptions := printf "%dx %s q75" . $webpFormat -}}
-{{- $resized := $image.Resize $webpOptions -}}
+{{- $targetWidth := . -}}
+{{- $currentImageWidth := $image.Width -}}
+{{- $resizeOptions := "" -}}
+{{- if gt $targetWidth $currentImageWidth -}}
+{{-/* Target width is larger than original: just convert format, don't upscale width beyond original /-}}
+{{- $resizeOptions = printf "%dx %s q75" $currentImageWidth $webpFormat -}}
+{{- else -}}
+{{-/ Target width is smaller or equal: resize to target width */-}}
+{{- $resizeOptions = printf "%dx %s q75" $targetWidth $webpFormat -}}
+{{- end -}}
+{{- $resized := $image.Resize $resizeOptions -}}
 {{- $srcsetsWebP = $srcsetsWebP | append (printf "%s %dw" $resized.RelPermalink .) -}}
 {{- end -}}
 <source type="image/webp" srcset="{{ delimit $srcsetsWebP ", " }}">
