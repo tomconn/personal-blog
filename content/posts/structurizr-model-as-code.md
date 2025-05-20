@@ -33,6 +33,8 @@ Before diving into the DSL, let's clarify some concepts:
 
 Let's break down the provided Structurizr DSL example to see how we model an AWS deployment architecture.
 
+<img src="https://github.com/tomconn/structurizr/blob/main/aws-deployment.png?raw=true" alt="AWS Deployment Diagram">
+
 **Stage 1: Workspace and Identifiers**
 
 We start by defining the workspace and setting an identifier strategy.
@@ -343,6 +345,7 @@ Here we specify *which* diagram we want to generate. We create a deployment view
 
 Finally, we include external styles and themes to make the diagram look good, often leveraging predefined AWS icons.
 
+<img src="/images/model-as-code.png" alt="Model as Code">
 
 ```javascript
     // Include custom styles (optional, could define styles inline)
