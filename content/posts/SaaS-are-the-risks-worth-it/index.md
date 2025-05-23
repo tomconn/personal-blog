@@ -5,7 +5,7 @@ draft: false # publish
 tags: ["SaaS", "Software as a Service", "Supply Chain Security"]
 ---
 
-<img src="hacker-between-factories.png" alt="Hacker supply chain hack">
+<img src="hacker-between-factories.gif" alt="Hacker supply chain hack">
 
 Software as a Service (SaaS) is fantastic, isn't it? Click a button, enter a credit card, and *poof* – instant productivity, collaboration, or cat video enhancement. It's like magic, but with more invoices. We offload the hassle of installation, patching, and keeping the server room hamsters fed. But with great convenience comes... well, not *great* responsibility for us, that's the point! But it *does* come with inherent risks.
 
