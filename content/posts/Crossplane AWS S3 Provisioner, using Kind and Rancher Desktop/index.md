@@ -1,6 +1,6 @@
 ---
 title: "Crossplane AWS S3 Provisioner Demo"
-date: 2025-06-14T10:30:00Z
+date: 2025-06-13T10:30:00Z
 draft: false # publish
 tags: ["Kubernetes", "IaC", "AWS"]
 ---
