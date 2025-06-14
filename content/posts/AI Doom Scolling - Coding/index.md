@@ -13,7 +13,7 @@ As every casual economics amateur knows, the main way to increase workers' produ
 
 ### So, will GenAI help achieve this?
 
-Until the 1990s, large-scale IT projects typically set up “tools teams” to create the underlying libraries required by the projects. You had teams implementing libraries to sort, search, save, and everything in between. The `object-oriented` movement saw these repeated patterns and offered a silver bullet: reusability through specialization. In addition to common libraries, design patterns appeared to address common approaches to problems. Teams started to adopt these systems, such as `Java` and `.NET`, with built-in libraries, removing the toil of re-implementing algorithms.
+In the 1990s, large-scale IT projects typically set up “tools teams” to create the underlying libraries required by the projects. You had teams implementing libraries to sort, search, save, and everything in between. The `object-oriented` movement saw these repeated patterns and offered a silver bullet: reusability through specialization. In addition to common libraries, design patterns appeared to address common approaches to problems. Teams started to adopt these systems, such as `Java` and `.NET`, with built-in libraries, removing the toil of re-implementing algorithms.
 
 Layered on top were methods such as `Domain-Driven Design` to align teams around domains of expertise and `agile` methodologies to deliver software incrementally based on customer feedback and need.
 
