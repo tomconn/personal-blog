@@ -20,17 +20,17 @@ Source available from [github.com](https://github.com/tomconn/kind-crossplane-aw
 The magic of Crossplane is its ability to extend the Kubernetes API. Instead of managing `Pods` and `Deployments`, you can manage cloud resources like `Buckets` and `Databases` with `kubectl apply`.
 
 The process is as follows:
-1.  **Local Cluster**: The `provisioner.sh` script first creates a local multi-node Kubernetes cluster using `kind`.
-2.  **Crossplane Installation**: It then uses Helm to install Crossplane into the `crossplane-system` namespace.
-3.  **Provider Configuration**:
+  1.  **Local Cluster**: The `provisioner.sh` script first creates a local multi-node Kubernetes cluster using `kind`.
+  2.  **Crossplane Installation**: It then uses Helm to install Crossplane into the `crossplane-system` namespace.
+  3.  **Provider Configuration**:
     *   It installs the Crossplane `provider-aws-s3`, which contains the controllers needed to manage AWS S3 resources.
     *   It securely reads your local `~/.aws/credentials` file and creates a Kubernetes `Secret` in the cluster.
     *   It applies a `ProviderConfig` resource, which tells the AWS provider how to authenticate with AWS by referencing the newly created `Secret`.
-4.  **Resource Provisioning**:
+  4.  **Resource Provisioning**:
     *   You apply a simple YAML manifest defining an S3 `Bucket`.
     *   Crossplane's AWS provider controllers detect this new custom resource.
     *   The provider uses the configured credentials to make API calls to AWS, creating the actual S3 bucket.
-5.  **Cleanup**: The script can also tear down all created resources, including the S3 bucket and the local `kind` cluster.
+  5.  **Cleanup**: The script can also tear down all created resources, including the S3 bucket and the local `kind` cluster.
 
 ## Prerequisites
 
@@ -43,13 +43,13 @@ Before you begin, ensure you have the following tools installed and configured:
 
 ## Setup
 
-1.  Clone this repository:
+  1.  Clone this repository:
     ```sh
     git clone <your-repo-url>
     cd <repo-name>
     ```
 
-2.  Ensure your AWS credentials are in place at `~/.aws/credentials`. The script will use the `[default]` profile.
+  2.  Ensure your AWS credentials are in place at `~/.aws/credentials`. The script will use the `[default]` profile.
     ```ini
     # File: ~/.aws/credentials
     [default]
