@@ -136,8 +136,8 @@ To run our Go app in Knative, we need to build it into a container image and pus
 ### a. Log in to GitHub Container Registry
 
 You need a GitHub Personal Access Token (PAT) with `write:packages` scope.
-[Create a PAT here](https://github.com/settings/tokens/new).
-Log in via the Docker CLI, using your GitHub username and the PAT as the password.
+- [Create a PAT here](https://github.com/settings/tokens/new).
+- Log in via the Docker CLI, using your GitHub username and the PAT as the password.
 
 ```bash
 # Replace <YOUR_GITHUB_USERNAME> with your actual username
@@ -170,8 +170,8 @@ Your container image is now available at your public GitHub Packages repository.
 ## 5. Deploy and Test the Knative Application
 
 Now we will deploy two Knative components:
-A `PingSource` that generates a new CloudEvent every minute.
-Our `event-display` service to receive and log these events.
+- A `PingSource` that generates a new CloudEvent every minute.
+- Our `event-display` service to receive and log these events.
 
 ### a. Deploy the PingSource and the Service
 
@@ -232,8 +232,8 @@ Wait about a minute for the first ping event to be sent. We can watch the logs o
 
 Once the script completes successfully, it will provide you with the final command needed to see your application in action.
 
-1.  **Wait for the first event:** The `PingSource` is configured to send an event once every minute.
-2.  **Watch the logs:** Run the command provided by the script's output to follow the logs of your running container.
+- **Wait for the first event:** The `PingSource` is configured to send an event once every minute.
+- **Watch the logs:** Run the command provided by the script's output to follow the logs of your running container.
 
     ```bash
     kubectl logs -l serving.knative.dev/service=event-display -c user-container --follow
