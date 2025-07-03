@@ -23,12 +23,12 @@ The core of this setup is a robust shell script that automates the creation and 
 
 ## Table of Contents
 
-1.  [Prerequisites](#1-prerequisites)
-2.  [Environment Setup](#2-environment-setup)
-3.  [The Go CloudEvents Application](#3-the-go-cloudevents-application)
-4.  [Build and Push the Application Image](#4-build-and-push-the-application-image)
-5.  [Deploy and Test the Knative Application](#5-deploy-and-test-the-knative-application)
-6.  [Cleanup](#6-cleanup)
+[Prerequisites](#1-prerequisites)
+[Environment Setup](#2-environment-setup)
+[The Go CloudEvents Application](#3-the-go-cloudevents-application)
+[Build and Push the Application Image](#4-build-and-push-the-application-image)
+[Deploy and Test the Knative Application](#5-deploy-and-test-the-knative-application)
+[Cleanup](#6-cleanup)
 
 ---
 
@@ -136,8 +136,8 @@ To run our Go app in Knative, we need to build it into a container image and pus
 ### a. Log in to GitHub Container Registry
 
 You need a GitHub Personal Access Token (PAT) with `write:packages` scope.
-1.  [Create a PAT here](https://github.com/settings/tokens/new).
-2.  Log in via the Docker CLI, using your GitHub username and the PAT as the password.
+[Create a PAT here](https://github.com/settings/tokens/new).
+Log in via the Docker CLI, using your GitHub username and the PAT as the password.
 
 ```bash
 # Replace <YOUR_GITHUB_USERNAME> with your actual username
@@ -170,8 +170,8 @@ Your container image is now available at your public GitHub Packages repository.
 ## 5. Deploy and Test the Knative Application
 
 Now we will deploy two Knative components:
-1.  A `PingSource` that generates a new CloudEvent every minute.
-2.  Our `event-display` service to receive and log these events.
+A `PingSource` that generates a new CloudEvent every minute.
+Our `event-display` service to receive and log these events.
 
 ### a. Deploy the PingSource and the Service
 
