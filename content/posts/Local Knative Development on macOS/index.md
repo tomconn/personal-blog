@@ -175,7 +175,7 @@ Now we will deploy two Knative components:
 
 ### a. Deploy the PingSource and the Service
 
-Create a file named `deploy.yaml` with the following content. **Remember to replace `<YOUR_GITHUB_USERNAME>`** with your actual GitHub username.
+Create a file named `deploy.yaml` with the following content. **Remember to replace `<YOUR_GITHUB_USERNAME>`** with your actual GitHub username. If using the yaml unchanged the container images will be pulled from my GHCR which I've made public.
 
 ```yaml
 apiVersion: sources.knative.dev/v1
