@@ -243,10 +243,10 @@ You have successfully completed the entire workflow when you see the following o
 
 ```
 Received a CloudEvent!
-  - Type: dev.knative.sources.ping
-  - Source: /apis/v1/namespaces/default/pingsources/cron-ping-source
-  - Subject:
-  - Data: {"message":"Hello from Knative Eventing!"}
+  Type: dev.knative.sources.ping
+  Source: /apis/v1/namespaces/default/pingsources/cron-ping-source
+  Subject:
+  Data: {"message":"Hello from Knative Eventing!"}
 ```
 ---
 
