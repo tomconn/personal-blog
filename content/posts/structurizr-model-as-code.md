@@ -5,7 +5,7 @@ draft: false # publish
 tags: ["Model as Code", "Diagramming", "Architecture"]
 ---
 
-<img src="/images/model-as-code.png" alt="Model as Code">
+<img src="/images/model-as-code.png" alt="Model as Code" style="display: block; margin: auto;">
 
 Tired of architecture diagrams that are perpetually out-of-date, inconsistent, or locked away in proprietary tools? Do you find yourself dreading the task of updating that Visio diagram after a minor infrastructure change? There's a better way: **Model as Code**. By defining your architecture using a textual Domain-Specific Language (DSL), you can version control, automate, and maintain your diagrams with the same rigor as your application code. This post explores how to use Structurizr and its DSL to create AWS deployment diagrams.
 
