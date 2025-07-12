@@ -5,7 +5,7 @@ draft: false # publish
 tags: ["Opinion", "GenAI", "Productivity"]
 ---
 
-<img src="doomscroll-coding.gif" alt="Doomscrollin-codin">
+<img src="doomscroll-coding.gif" alt="Doomscrollin-codin" style="display: block; margin: auto;">
 
 Recently, I've been testing out GenAI as a code assistance tool. The premise/hypothesis is that the tool will amplify an engineer's output and thus lead to greater efficiencies. These efficiencies will manifest as either more output from existing developers or fewer developers required to achieve the same task, thus increasing productivity.
 

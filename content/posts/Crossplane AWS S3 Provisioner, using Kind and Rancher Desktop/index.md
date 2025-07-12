@@ -5,7 +5,7 @@ draft: false # publish
 tags: ["Kubernetes", "IaC", "AWS"]
 ---
 
-<img src="crossplane-logo.svg" alt="Crossplane">
+<img src="crossplane-logo.svg" alt="Crossplane" style="display: block; margin: auto;">
 
 This project demonstrates how to provision and manage AWS resources (specifically an S3 bucket) from a local Kubernetes cluster using [Crossplane](https://crossplane.io).
 

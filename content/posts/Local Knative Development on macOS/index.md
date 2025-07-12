@@ -5,7 +5,7 @@ draft: false # publish
 tags: ["Knative", "Kubernetes", "Serverless"]
 ---
 
-<img src="relaxed-dev.gif" alt="relaxed-dev">
+<img src="relaxed-dev.gif" alt="relaxed-dev" style="display: block; margin: auto;">
 
 # Local Knative Development on macOS (Apple Silicon/ARM64)
 
