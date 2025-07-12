@@ -7,8 +7,6 @@ tags: ["Kubernetes", "Kind", "Istio", "Service Mesh"]
 
 <img src="mesh.gif" alt="service-mesh">
 
-# Local Development with Istio on Kind
-
 This document outlines the setup for a local developer environment running a Kind (Kubernetes in Docker) cluster with Istio installed.
 
 ## Overview
