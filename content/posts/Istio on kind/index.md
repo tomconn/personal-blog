@@ -1,6 +1,6 @@
 ---
 title: "Local Development using Istio on Kind"
-date: 2025-07-01T11:30:00Z
+date: 2025-07-11T11:30:00Z
 draft: false # publish
 tags: ["Kubernetes", "Kind", "Istio", "Service Mesh"]
 ---
@@ -16,10 +16,10 @@ This document outlines the setup for a local developer environment running a Kin
 The environment is managed by a single script, `manage-cluster.sh`, which automates the creation, configuration, and teardown of the entire stack. This setup is ideal for testing and developing with Istio service mesh on a local machine.
 
 The script handles the following:
-1.  **Kind Cluster Creation**: Sets up a multi-node Kubernetes cluster.
-2.  **Istio Installation**: Installs a specific version of Istio.
-3.  **Bookinfo Deployment**: Deploys the standard Istio Bookinfo demo application.
-4.  **External Access**: Configures `cloud-provider-kind` to enable access to services from outside the cluster.
+- **Kind Cluster Creation**: Sets up a multi-node Kubernetes cluster.
+- **Istio Installation**: Installs a specific version of Istio.
+- **Bookinfo Deployment**: Deploys the standard Istio Bookinfo demo application.
+- **External Access**: Configures `cloud-provider-kind` to enable access to services from outside the cluster.
 
 ## Prerequisites
 
@@ -68,10 +68,10 @@ To create and configure the entire environment, run:
 ./manage-cluster.sh start
 ```
 This command will:
-1.  Create the Kind cluster.
-2.  Install `cloud-provider-kind`.
-3.  Install Istio `1.26.2`.
-4.  Deploy the Bookinfo application.
+- Create the Kind cluster.
+- Install `cloud-provider-kind`.
+- Install Istio `1.26.2`.
+- Deploy the Bookinfo application.
 
 As the script runs, it will prompt for a password as the `cloud-provider-kind` requires sudo to execute.
 ```bash
@@ -107,12 +107,12 @@ Success! Received response:
 
 If you choose not to run `cloud-provider-kind` to externalize the service, you can still verify access from within the cluster.
 
-1.  Deploy a temporary pod for testing:
+- Deploy a temporary pod for testing:
     ```bash
     kubectl run curl-pod --image=curlimages/curl -- sleep infinity
     ```
 
-2.  Execute a `curl` command from the pod to the `productpage`:
+- Execute a `curl` command from the pod to the `productpage`:
     ```bash
     kubectl exec curl-pod -- curl -s http://istio-ingressgateway.istio-system/productpage | grep -o '<title>.*</title>'
     ```
