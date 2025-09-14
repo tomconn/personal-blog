@@ -65,7 +65,7 @@ I used the following workflow, to methodically tackle each question. I found the
 **Configuring Authentication (mTLS, JWT)**
 **Securing Edge Traffic with TLS**
 
-- Again this section is all about being familiar with the Istio resources. As mentioned I used the killercoda practice exams and the istio help pages to solve the problems.
+- Again this section is all about being familiar with the Istio resources. As mentioned I used the killercoda practice exams and the Istio help pages to solve the problems.
 
 ### Troubleshooting – 20%
 
