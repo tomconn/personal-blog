@@ -24,6 +24,7 @@ I used the following workflow, to methodically tackle each question. I found the
 
 ## Breaking down the Domains & Competencies
 
+
 ### Installation, Upgrades, and Configuration – 20%
 
 
