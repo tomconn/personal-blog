@@ -12,14 +12,14 @@ The [Istio Certified Associate, ICA](https://training.linuxfoundation.org/certif
 ## Building a question and problem solving routine
 I used the following workflow, to methodically tackle each question. I found the routine helpful as it developed muscle memory and was one less thing to have to remember. 
 
-1. At the start of each question there is a hyperlink to the relevant istio documentation, I strongly advise using this.
-2. I had a single terminal window open, and at the start of each question, used the provided `ssh <server>` to login to the server.
-3. If the question required investigation, I would gather information and use this to inform the answer.
-4. Using the provided VS Chromium, I created a new tab for each question. I copied the relevant manifests from the documentation, modified to solve the question. Once happy I copied the manifests to the clipboard.
-5. In the Terminal, I used vim to create a yaml file, and pasted the saved manifest (Ctrl, Shift, V) and saved (Shift ZZ).
-6. Some questions required editing a resource, in this case I still used the editor for the manifest snippet and pasted into the resource and saved.
-7. On the command line I executing either istioctl and/or kubectl, to apply the changes. Any errors I fixed in VS Chromium and repeated above steps.
-8. If the question provides a curl or cli command to validate, do execute it, if it fails validation, I gave myself a minute to investigate but if I couldn't resolve I'd flag the question and move on to the next one.
+- At the start of each question there is a hyperlink to the relevant istio documentation, I strongly advise using this.
+- I had a single terminal window open, and at the start of each question, used the provided `ssh <server>` to login to the server.
+- If the question required investigation, I would gather information and use this to inform the answer.
+- Using the provided VS Chromium, I created a new tab for each question. I copied the relevant manifests from the documentation, modified to solve the question. Once happy I copied the manifests to the clipboard.
+- In the Terminal, I used vim to create a yaml file, and pasted the saved manifest (Ctrl, Shift, V) and saved (Shift ZZ).
+- Some questions required editing a resource, in this case I still used the editor for the manifest snippet and pasted into the resource and saved.
+- On the command line I executing either istioctl and/or kubectl, to apply the changes. Any errors I fixed in VS Chromium and repeated above steps.
+- If the question provides a curl or cli command to validate, do execute it, if it fails validation, I gave myself a minute to investigate but if I couldn't resolve I'd flag the question and move on to the next one.
 
 ## Breaking down the Domains & Competencies
 
