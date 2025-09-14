@@ -30,7 +30,7 @@ I used the following workflow, to methodically tackle each question. I found the
 
 **Installing Istio with istioctl or Helm**
 
-- Be very familiar with iostioctl install/analyze options.
+- Be very familiar with istioctl install/analyze options.
 
 **Installing Istio in Sidecar or Ambient Mode**
 
