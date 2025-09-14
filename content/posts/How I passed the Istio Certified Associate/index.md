@@ -26,20 +26,26 @@ I used the following workflow, to methodically tackle each question. I found the
 
 ### Installation, Upgrades, and Configuration – 20%
 
-Installing Istio with istioctl or Helm
+
+**Installing Istio with istioctl or Helm**
+
 - Be very familiar with iostioctl install/analyze options.
 
-Installing Istio in Sidecar or Ambient Mode
+**Installing Istio in Sidecar or Ambient Mode**
+
 - Ensure you you understand enabling/disabling the sidecar on pods and namespaces. 
 
-Customizing your Istio Installation
+**Customizing your Istio Installation**
+
 - Ensure you understand the IstioOperator and customizing the components.
 
-Upgrading Istio (Canary, In-Place)
+**Upgrading Istio (Canary, In-Place)**
+
 - Practice Istio canary and in-place upgrades, I used my Mac to practice the upgrades using [Istio on Kind](http://github.com/tomconn/istio-on-kind).
 
 
 ### Traffic Management – 35%
+
 
 **Configuring Ingress and Egress Traffic**
 **Configuring Routing within a Service Mesh**
@@ -53,6 +59,7 @@ Upgrading Istio (Canary, In-Place)
 
 ### Securing Workloads – 25% 
 
+
 **Configuring Authorization**
 **Configuring Authentication (mTLS, JWT)**
 **Securing Edge Traffic with TLS**
@@ -61,6 +68,7 @@ Upgrading Istio (Canary, In-Place)
 
 ### Troubleshooting – 20%
 
+
 **Troubleshooting Configuration**
 **Troubleshooting the Mesh Control Plane**
 **Troubleshooting the Mesh Data Plane**
@@ -68,11 +76,13 @@ Upgrading Istio (Canary, In-Place)
 - I found this to be the toughest area. Under exam and time pressure, you need to have a method to help diagnose the issue(s). The advice I have is become familiar with the Istio troubleshooting documentation. Use `istioctl analyze`, `kubectl logs`, `kubectl get po/deploy POD --o yaml` and `kubectl rollout restart` to diagnose and solve. Easy to say, but stay focused, don't panic and timebox and move on. 
 
 ## Summary
+
 There were 16 questions, in the exam I took, I'd completed the first pass in about 90 minutes. This left 30 minutes to review flagged questions and figure out the incomplete troubleshooting questions. I actually spent the majority of this time on troubleshooting.
 This was a tougher exam that the associate label suggests. But it's worth it if your organization is currently using or planning to use Istio.
 Finally I attained the [credly cert](https://www.credly.com/badges/42e6f473-35a6-4623-9dbe-7173b6126ac5/linked_in_profile).
 
 ## Resources
+
 * [ICA updates](https://training.linuxfoundation.org/istio-certified-associate-ica-program-changes)
 * [Killercoda Istio practice](https://killercoda.com/ica)
 * [Istio on Kind practice](http://github.com/tomconn/istio-on-kind)
