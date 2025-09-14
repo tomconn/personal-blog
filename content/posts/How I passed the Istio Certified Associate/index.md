@@ -35,7 +35,7 @@ Customizing your Istio Installation
 - Ensure you understand the IstioOperator and customizing the components.
 
 Upgrading Istio (Canary, In-Place)
-- Practice Istio canary and in-place upgrades, I used my Mac to practice the upgrade using [Istio on Kind practice](http://github.com/tomconn/istio-on-kind).
+- Practice Istio canary and in-place upgrades, I used my Mac to practice the upgrades using [Istio on Kind](http://github.com/tomconn/istio-on-kind).
 
 
 ### Traffic Management – 35%
