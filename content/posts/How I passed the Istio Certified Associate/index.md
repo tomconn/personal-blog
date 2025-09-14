@@ -27,10 +27,13 @@ I used the following workflow, to methodically tackle each question. I found the
 
 Installing Istio with istioctl or Helm
 - Be very familiar with iostioctl install/analyze options.
+
 Installing Istio in Sidecar or Ambient Mode
 - Ensure you you understand enabling/disabling the sidecar on pods and namespaces. 
+
 Customizing your Istio Installation
 - Ensure you understand the IstioOperator and customizing the components.
+
 Upgrading Istio (Canary, In-Place)
 - Practice Istio canary and in-place upgrades, I used my Mac to practice the upgrade using [Istio on Kind practice](http://github.com/tomconn/istio-on-kind).
 
