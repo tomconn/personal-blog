@@ -7,7 +7,7 @@ tags: ["Istio", "Service Mesh", "Kubernetes"]
 
 <img src="ica.jpg" alt="ICA attained" style="display: block; margin: auto;">
 
-The [Istio Certified Associate, ICA](https://training.linuxfoundation.org/certification/istio-certified-associate-ica/) is a challenging and practical hands on exam. To help me learn a capability I like the idea of a exam based goal, it's achievable and ensures I attain a strong understanding of the system.  
+The [Istio Certified Associate, ICA](https://training.linuxfoundation.org/certification/istio-certified-associate-ica/) is a challenging and practical hands on exam. To help learn a capability I like the idea of an exam based goal, it's achievable and ensures I attain a strong understanding of the system.
 
 ## Building a question and problem solving routine
 I used the following workflow, to methodically tackle each question. I found the routine helpful as it developed muscle memory and was one less thing to have to remember. 
