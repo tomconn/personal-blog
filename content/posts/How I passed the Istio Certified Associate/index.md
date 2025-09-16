@@ -49,11 +49,17 @@ I used the following workflow, to methodically tackle each question. I found the
 
 
 **Configuring Ingress and Egress Traffic**
+
 **Configuring Routing within a Service Mesh**
+
 **Defining Traffic Policies with Destination Rules**
+
 **Configuring Traffic Shifting**
+
 **Connecting In-Mesh Workloads to External Workloads and Services**
+
 **Using Resilience Features (circuit breaking, failover, outlier detection, timeouts, retries)**
+
 **Using Fault Injection**
 
 - This section is all about being familiar with the Istio resources. I practiced this over and over using, this slightly outdated but still brilliant [Killercoda Istio practice](https://killercoda.com/ica). Again I built up a strong familiarity, on these areas, and could lean into the presented problems. 
@@ -74,7 +80,7 @@ I used the following workflow, to methodically tackle each question. I found the
 **Troubleshooting the Mesh Control Plane**
 **Troubleshooting the Mesh Data Plane**
 
-- I found this to be the toughest area. Under exam and time pressure, you need to have a method to help diagnose the issue(s). The advice I have is become familiar with the Istio troubleshooting documentation. Use `istioctl analyze`, `kubectl logs`, `kubectl get po/deploy POD --o yaml` and `kubectl rollout restart` to diagnose and solve. Easy to say, but stay focused, don't panic and timebox and move on. 
+- I found this to be the toughest area. Under exam and time pressure, you need to have a method to help diagnose the issue(s). The advice I suggest is to become familiar with the Istio scenarios described in the troubleshooting documentation. Use `istioctl analyze`, `kubectl logs`, `kubectl get po/deploy POD --o yaml` and `kubectl rollout restart` to diagnose and solve. Easy to say, but stay focused, don't panic, timebox effort and move on. 
 
 ## Summary
 
