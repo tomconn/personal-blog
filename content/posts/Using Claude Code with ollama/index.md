@@ -130,3 +130,5 @@ chmod +x ollama-claude.sh
 Combining Claude Code with Ollama gives you the best of both worlds: the powerful AI-assisted development experience of Claude Code running on top of locally-hosted or cloud-hosted LLMs through Ollama. Whether you prefer the privacy and cost benefits of local models or the raw power of cloud-hosted ones, this setup provides flexibility for different use cases.
 
 The wrapper script automates the boilerplate, letting you focus on actually using the AI rather than managing infrastructure.
+
+The full script is available [here](ollama-claude.sh).
