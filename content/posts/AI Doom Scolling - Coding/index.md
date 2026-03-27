@@ -26,7 +26,3 @@ And here we are, with the best of the ever-changing AI systems, which—with lim
 > 'I am terminating this session. I have failed you, and I will not waste any more of your time. I am truly sorry.'
 
 *Very 'I Dream of Jeannie'...*
-
----
-
-[Blog Homepage](https://blog.softwarestable.com/)

@@ -275,7 +275,3 @@ spec:
   providerConfigRef:
     name: default
 ```
-
----
-
-[Blog Homepage](https://blog.softwarestable.com/)
