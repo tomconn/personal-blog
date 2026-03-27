@@ -375,3 +375,7 @@ While there's a learning curve compared to drag-and-drop tools, the long-term be
 ---
 
 **Reference:** For more Structurizr examples and inspiration, check out this GitHub repository: [https://github.com/tomconn/structurizr/](https://github.com/tomconn/structurizr/)
+
+---
+
+[Blog Homepage](https://blog.softwarestable.com/)

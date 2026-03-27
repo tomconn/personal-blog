@@ -132,3 +132,7 @@ Combining Claude Code with Ollama gives you the best of both worlds: the powerfu
 The wrapper script automates the boilerplate, letting you focus on actually using the AI rather than managing infrastructure.
 
 The full script is available [here](ollama-claude.sh).
+
+---
+
+[Blog Homepage](https://blog.softwarestable.com/)

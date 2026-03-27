@@ -261,3 +261,7 @@ When you are finished, you can completely remove the cluster and all related res
 ```
 
 This will stop the tunnel process and delete the Minikube cluster, returning your system to a clean state.
+
+---
+
+[Blog Homepage](https://blog.softwarestable.com/)

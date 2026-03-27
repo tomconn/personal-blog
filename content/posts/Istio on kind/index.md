@@ -115,3 +115,7 @@ If you choose not to run `cloud-provider-kind` to externalize the service, you c
     kubectl exec curl-pod -- curl -s http://istio-ingressgateway.istio-system/productpage | grep -o '<title>.*</title>'
     ```
     This should return `<title>Simple Bookstore App</title>`.
+
+---
+
+[Blog Homepage](https://blog.softwarestable.com/)

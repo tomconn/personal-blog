@@ -288,3 +288,7 @@ Ready to explore the code yourself? Check out the full example project on GitHub
 [**https://github.com/tomconn/personal-website**](https://github.com/tomconn/personal-website)
 
 Dive in, and see what amazing things you can build on the Cloudflare edge!
+
+---
+
+[Blog Homepage](https://blog.softwarestable.com/)

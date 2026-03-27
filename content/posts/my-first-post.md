@@ -32,3 +32,7 @@ Here's an example of an embedded image (if you place one in `static/images/`):
 
 greet('Developer');
 ```
+
+---
+
+[Blog Homepage](https://blog.softwarestable.com/)
