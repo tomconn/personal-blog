@@ -1,6 +1,6 @@
 ---
 title: "Using Claude Code with Ollama"
-date: 2026-03-27T09:00:00Z
+date: 2026-03-26T09:00:00Z
 draft: false # publish
 tags: ["GenAI", "Ollama", "Anthropic", "Claude Code", "Local LLM"]
 ---
