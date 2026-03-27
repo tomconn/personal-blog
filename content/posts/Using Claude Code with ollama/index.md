@@ -7,6 +7,8 @@ tags: ["GenAI", "Ollama", "Anthropic", "Claude Code", "Local LLM"]
 
 Running Large Language Models (LLMs) locally has become increasingly accessible, and combining this with Claude Code opens up powerful possibilities for AI-assisted development without relying on cloud services. In this post, I'll walk through setting up Ollama to run LLMs locally and how to integrate it with Claude Code.
 
+![Claude Code with Ollama](/images/claude-ollama.png)
+
 ## Installing Ollama
 
 Ollama is a lightweight tool for running LLMs locally. Installation is straightforward on macOS:
